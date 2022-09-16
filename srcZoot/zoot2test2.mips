@@ -1,0 +1,100 @@
+#IOPETI Hugo & YVOZ Ludovic
+
+.data
+vrai:	.word 1
+faux:	.word 0
+vraiAff:	.asciiz "vrai"
+fauxAff:	.asciiz "faux"
+sautLigne:	.asciiz "\n"
+.text
+main :
+
+# Initialiser $s1 avec la valeur vrai
+	la $s1, faux
+
+# Initialiser $s7 avec $sp
+	move $s7, $sp
+
+# Réserver la place pour 3 variables
+	add $sp, $sp, -12
+
+# Ecrire fonc1()
+
+# Sauvegarde des registres avant l'appel de fonction.
+	sw $ra,0($sp)
+	sw $s1,-4($sp)
+	addi $sp,$sp,-8
+	# Appel de la fonction.
+	jal fonc1
+	# Restauration des registres après l'appel de fonction.
+	lw $s1,4($sp)
+	lw $ra,8($sp)
+	addi $sp,$sp,8
+	move $t0, $v0
+	beq $s1, $t0, Sinon15
+	la $a0, vraiAff
+	li $v0, 4
+	syscall
+	b FinSi15
+Sinon15:
+	la $a0, fauxAff
+	li $v0, 4
+	syscall
+FinSi15:
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Ecrire 1
+	li $v0, 1
+	move $a0, $v0
+	li $v0, 1
+	syscall
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Ecrire vrai
+	la $v0, vrai
+	move $t0, $v0
+	beq $s1, $t0, Sinon17
+	la $a0, vraiAff
+	li $v0, 4
+	syscall
+	b FinSi17
+Sinon17:
+	la $a0, fauxAff
+	li $v0, 4
+	syscall
+FinSi17:
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+end :
+	li $v0, 10
+	syscall
+
+#Déclaration de la fonction fonc2
+fonc2: 
+# Retourne faux
+	la $v0, faux
+
+	jr $ra
+
+#Déclaration de la fonction fonc1
+fonc1: 
+# Retourne fonc2()
+
+# Sauvegarde des registres avant l'appel de fonction.
+	sw $ra,0($sp)
+	sw $s1,-4($sp)
+	addi $sp,$sp,-8
+	# Appel de la fonction.
+	jal fonc2
+	# Restauration des registres après l'appel de fonction.
+	lw $s1,4($sp)
+	lw $ra,8($sp)
+	addi $sp,$sp,8
+
+	jr $ra

@@ -1,0 +1,22 @@
+// Compilation OK
+// Exécution :
+// 1
+// 2
+// vrai
+// vrai
+// faux
+
+variables
+entier a;
+entier b;
+booleen c;
+debut
+a = 1;
+b = 2;
+c = vrai;
+ecrire a;
+ecrire b;
+ecrire c;
+ecrire vrai;
+ecrire faux;
+fin

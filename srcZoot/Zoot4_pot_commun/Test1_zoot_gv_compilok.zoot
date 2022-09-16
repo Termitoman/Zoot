@@ -1,0 +1,145 @@
+// vrai
+// vrai
+// 10
+// 10
+// 10
+// 0
+// 90
+// vrai
+// 0
+// 0
+// 0
+// 0
+// 180
+// faux
+// 0
+// 0
+// 0
+// 1
+// 180
+// faux
+// 0
+// 0
+// 0
+// 2
+// 180
+// faux
+// 0
+// 0
+// 0
+// 3
+// 180
+// faux
+// 0
+// 0
+// 0
+// 4
+// 180
+// faux
+// 0
+// 0
+// 0
+// 5
+// 180
+// 180
+
+variables
+
+    booleen initV;
+    entier poissons;
+    entier boeuf;
+    entier poulet;
+    booleen aMange;
+    entier joursSansManger;
+    entier maxJoursSansManger;
+    booleen estMort;
+    entier score;
+
+fonctions
+
+    booleen init()
+    variables
+    debut
+        initV = vrai;
+        poissons = 20;
+        boeuf = 20;
+        poulet = 20;
+        joursSansManger = 0;
+        maxJoursSansManger = 5;
+        score = 0;
+        estMort = faux;
+        retourne initV;
+    fin
+
+    booleen manger(entier poissonMange; entier boeufMange; entier pouletMange;)
+    variables
+    debut
+        si poissons < poissonMange alors
+            poissonMange = poissons;
+            poissons = 0;
+        sinon
+            poissons = poissons + -poissonMange;
+        finsi
+
+        score = score + 2*poissonMange;
+
+        si boeuf < boeufMange alors
+            boeufMange = boeuf;
+            boeuf = 0;
+        sinon
+            boeuf = boeuf + -boeufMange;
+        finsi
+
+        score = score + 4*boeufMange;
+
+        si poulet < pouletMange alors
+            pouletMange = poulet;
+            poulet = 0;
+        sinon
+            poulet = poulet + -pouletMange;
+        finsi
+
+        score = 3*pouletMange + score;
+        score = 2*score + -score + 2*score + 2*score + -4*score;
+        
+        si non(poissonMange < 5) et non(boeufMange < 1) et non(pouletMange < 2) alors
+            aMange = vrai;
+            joursSansManger = 0;
+        sinon
+            aMange = faux;
+            joursSansManger = joursSansManger + 1;
+        finsi
+
+        retourne aMange;
+    fin
+
+    booleen digerer()
+    variables
+    debut
+        aMange = faux;
+        retourne vrai;
+    fin
+
+debut
+    initV = faux;
+
+    si non(initV) alors
+        ecrire init();
+    finsi
+
+    repeter
+        ecrire manger(10, 10, 10);
+
+        ecrire poulet;
+        ecrire boeuf;
+        ecrire poissons;
+        ecrire joursSansManger;
+        ecrire score;
+        
+        si non(joursSansManger < maxJoursSansManger) alors
+            estMort = vrai;
+        finsi
+    jusqua estMort finrepeter
+
+    ecrire score;
+fin

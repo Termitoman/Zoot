@@ -1,0 +1,139 @@
+#IOPETI Hugo & YVOZ Ludovic
+
+.data
+vrai:	.word 1
+faux:	.word 0
+vraiAff:	.asciiz "vrai"
+fauxAff:	.asciiz "faux"
+sautLigne:	.asciiz "\n"
+.text
+main :
+
+# Initialiser $s7 avec $sp
+	move $s7, $sp
+
+# Réserver la place pour 4 variables
+	add $sp, $sp, -16
+
+# a = 9
+	li $v0, 9
+	sw $v0, 0($s7)
+
+# b = vrai
+	la $v0, vrai
+	sw $v0, -4($s7)
+
+# w = faux
+	la $v0, faux
+	sw $v0, -8($s7)
+
+# c = a
+	lw $v0, 0($s7)
+	sw $v0, -12($s7)
+
+# Ecrire a
+	lw $v0, 0($s7)
+	move $a0, $v0
+	li $v0, 1
+	syscall
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Ecrire b
+	lw $v0, -4($s7)
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon13
+	la $a0, vraiAff
+	li $v0, 4
+	syscall
+	b FinSi13
+Sinon13:
+	la $a0, fauxAff
+	li $v0, 4
+	syscall
+FinSi13:
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Ecrire w
+	lw $v0, -8($s7)
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon14
+	la $a0, vraiAff
+	li $v0, 4
+	syscall
+	b FinSi14
+Sinon14:
+	la $a0, fauxAff
+	li $v0, 4
+	syscall
+FinSi14:
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Ecrire 125
+	li $v0, 125
+	move $a0, $v0
+	li $v0, 1
+	syscall
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Ecrire faux
+	la $v0, faux
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon16
+	la $a0, vraiAff
+	li $v0, 4
+	syscall
+	b FinSi16
+Sinon16:
+	la $a0, fauxAff
+	li $v0, 4
+	syscall
+FinSi16:
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Ecrire vrai
+	la $v0, vrai
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon17
+	la $a0, vraiAff
+	li $v0, 4
+	syscall
+	b FinSi17
+Sinon17:
+	la $a0, fauxAff
+	li $v0, 4
+	syscall
+FinSi17:
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Ecrire c
+	lw $v0, -12($s7)
+	move $a0, $v0
+	li $v0, 1
+	syscall
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+end :
+	li $v0, 10
+	syscall

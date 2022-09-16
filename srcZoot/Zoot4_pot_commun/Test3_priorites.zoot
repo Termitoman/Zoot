@@ -1,0 +1,53 @@
+// 0
+// 1
+// 2
+// 3
+// 4
+// vrai
+// 33
+// 33
+// faux
+// faux
+// vrai
+// vrai
+
+variables
+    entier a;
+    entier b;
+    entier c;
+fonctions
+    entier aa()
+    variables
+    debut
+        retourne 1;
+    fin
+debut
+    a = 0;
+    b = 1;
+    c = 2;
+    repeter
+        ecrire a;
+        a = a + 1;
+    jusqua a == b et b == c ou a == 5 finrepeter
+
+    si vrai alors
+    finsi
+
+    si vrai alors
+    sinon
+        ecrire faux;
+    finsi
+
+    si vrai == vrai et faux == faux et faux != vrai et vrai != faux et vrai != faux ou vrai alors
+        ecrire vrai;
+    sinon
+        ecrire faux;
+    finsi
+
+    ecrire 5 * 6 + 3;
+    ecrire 3 + 5 * 6;
+    ecrire non vrai;
+    ecrire faux et non vrai;
+    ecrire faux ou vrai et vrai ou faux;
+    ecrire non(non vrai et faux ou non vrai et vrai);
+fin

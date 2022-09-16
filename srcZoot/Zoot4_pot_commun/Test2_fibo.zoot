@@ -1,0 +1,17 @@
+variables
+    entier a;
+fonctions
+    entier fibo(entier n;)
+    variables
+        entier ret;
+    debut
+        si n < 3 alors
+            retourne 1;
+        finsi
+        
+        retourne fibo(n + -2) + fibo(n + -1);
+    fin
+debut
+    a = fibo(12);
+    ecrire a;
+fin

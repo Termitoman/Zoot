@@ -1,0 +1,52 @@
+variables
+
+entier a;
+booleen b;
+entier c;
+booleen d;
+
+fonctions
+
+entier fonc2()
+variables
+entier a;
+entier b;
+debut
+    a = 42;
+    b = a;
+    retourne b;
+fin
+
+entier fonc1()
+variables
+debut
+    retourne fonc2();
+fin
+
+booleen fonc3()
+variables
+entier z;
+booleen bool;
+debut
+    bool = faux;
+    z = 4;
+    retourne bool;
+fin
+
+debut
+    // Doit donner : 42 faux vrai 5 vrai 5 faux 42 42 faux
+    ecrire 42;
+    ecrire faux;
+    ecrire vrai;
+    a = 5;
+    c = a;
+    b = vrai;
+    d = faux;
+    ecrire a;
+    ecrire b;
+    ecrire c;
+    ecrire d;
+    ecrire fonc1();
+    ecrire fonc2();
+    ecrire fonc3();
+fin

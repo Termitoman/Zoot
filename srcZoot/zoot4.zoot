@@ -1,0 +1,43 @@
+variables
+entier a;
+entier b;
+booleen c;
+entier i;
+
+fonctions
+entier fonc1(entier a; entier b;)
+variables
+booleen c;
+debut
+si a == b alors
+ecrire vrai;
+sinon
+ecrire faux;
+finsi
+retourne 3;
+fin
+
+debut
+i = 0;
+
+repeter
+ecrire i;
+i = i + 1;
+jusqua
+i == 10
+finrepeter
+
+si 1==1 alors
+ecrire vrai;
+finsi
+ecrire fonc1(5,12);
+
+a = 25;
+b = 3;
+c = a == b;
+ecrire (faux ou vrai) et (vrai et vrai);ecrire vrai;
+ecrire -4 < 54;
+ecrire non faux;
+ecrire c;
+ecrire (c == faux) == (a == 25);
+fin

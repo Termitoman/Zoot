@@ -1,0 +1,272 @@
+#IOPETI Hugo & YVOZ Ludovic
+
+.data
+vrai:	.word 1
+faux:	.word 0
+vraiAff:	.asciiz "vrai"
+fauxAff:	.asciiz "faux"
+sautLigne:	.asciiz "\n"
+.text
+main :
+
+# Initialiser $s7 avec $sp
+	move $s7, $sp
+
+# Réserver la place pour 7 variables
+	add $sp, $sp, -28
+
+# a = 0
+	li $v0, 0
+	sw $v0, 0($s7)
+
+# b = 0
+	li $v0, 0
+	sw $v0, -4($s7)
+
+# c = 1
+	li $v0, 1
+	sw $v0, -8($s7)
+
+# Répeter ... jusqu'a non(a<2)
+Boucle13:
+# Répeter ... jusqu'a non(b<2)
+Boucle9:
+# Ecrire setB(b + 1)
+
+# Sauvegarde des registres avant l'appel de fonction.
+	sw $ra,0($sp)
+	sw $s1,-4($sp)
+	addi $sp,$sp,-8
+	# Passage des valeurs dans les paramètres de la fonction appelée.
+	lw $v0, -4($s7)
+	move $t0, $v0
+	li $v0, 1
+	add $v0,$v0,$t0
+	sw $v0, -20($s7)
+	# Appel de la fonction.
+	jal setB1
+	# Restauration des registres après l'appel de fonction.
+	lw $s1,4($sp)
+	lw $ra,8($sp)
+	addi $sp,$sp,8
+	move $a0, $v0
+	li $v0, 1
+	syscall
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Si a==1 
+		lw $v0, 0($s7)
+	move $t0, $v0
+	li $v0, 1
+	beq $t0, $v0, Sinon1
+	la $v0, faux
+	b FinSi1
+Sinon1:
+	la $v0, vrai
+FinSi1:
+
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon6
+# Alors 
+# Si non(b<2) 
+		lw $v0, -4($s7)
+	move $t0, $v0
+	li $v0, 2
+	sub $t8, $t0, $v0
+	bltz $t8, Sinon2
+	la $v0, faux
+	b FinSi2
+Sinon2:
+	la $v0, vrai
+FinSi2:
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon3
+	la $v0, faux
+	b FinSi3
+Sinon3:
+	la $v0, vrai
+FinSi3:
+
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon5
+# Alors 
+# Ecrire vrai
+	la $v0, vrai
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon4
+	la $a0, vraiAff
+	li $v0, 4
+	syscall
+	b FinSi4
+Sinon4:
+	la $a0, fauxAff
+	li $v0, 4
+	syscall
+FinSi4:
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+	b FinSi5
+Sinon5:
+# Sinon 
+FinSi5:
+
+	b FinSi6
+Sinon6:
+# Sinon 
+FinSi6:
+
+	lw $v0, -4($s7)
+	move $t0, $v0
+	li $v0, 2
+	sub $t8, $t0, $v0
+	bltz $t8, Sinon7
+	la $v0, faux
+	b FinSi7
+Sinon7:
+	la $v0, vrai
+FinSi7:
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon8
+	la $v0, faux
+	b FinSi8
+Sinon8:
+	la $v0, vrai
+FinSi8:
+
+# Initialiser $t8 avec la valeur vrai
+	la $t8, vrai
+	beq $t8, $v0, FinBoucle9
+	j Boucle9
+FinBoucle9: 
+
+# b = 0
+	li $v0, 0
+	sw $v0, -4($s7)
+
+# Ecrire setA(a + 1)
+
+# Sauvegarde des registres avant l'appel de fonction.
+	sw $ra,0($sp)
+	sw $s1,-4($sp)
+	addi $sp,$sp,-8
+	# Passage des valeurs dans les paramètres de la fonction appelée.
+	lw $v0, 0($s7)
+	move $t0, $v0
+	li $v0, 1
+	add $v0,$v0,$t0
+	sw $v0, -12($s7)
+	# Appel de la fonction.
+	jal setA1
+	# Restauration des registres après l'appel de fonction.
+	lw $s1,4($sp)
+	lw $ra,8($sp)
+	addi $sp,$sp,8
+	move $a0, $v0
+	li $v0, 1
+	syscall
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+	lw $v0, 0($s7)
+	move $t0, $v0
+	li $v0, 2
+	sub $t8, $t0, $v0
+	bltz $t8, Sinon11
+	la $v0, faux
+	b FinSi11
+Sinon11:
+	la $v0, vrai
+FinSi11:
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon12
+	la $v0, faux
+	b FinSi12
+Sinon12:
+	la $v0, vrai
+FinSi12:
+
+# Initialiser $t8 avec la valeur vrai
+	la $t8, vrai
+	beq $t8, $v0, FinBoucle13
+	j Boucle13
+FinBoucle13: 
+
+# Répeter ... jusqu'a non(a<0)
+Boucle17:
+# Ecrire 1
+	li $v0, 1
+	move $a0, $v0
+	li $v0, 1
+	syscall
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+	lw $v0, 0($s7)
+	move $t0, $v0
+	li $v0, 0
+	sub $t8, $t0, $v0
+	bltz $t8, Sinon15
+	la $v0, faux
+	b FinSi15
+Sinon15:
+	la $v0, vrai
+FinSi15:
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon16
+	la $v0, faux
+	b FinSi16
+Sinon16:
+	la $v0, vrai
+FinSi16:
+
+# Initialiser $t8 avec la valeur vrai
+	la $t8, vrai
+	beq $t8, $v0, FinBoucle17
+	j Boucle17
+FinBoucle17: 
+
+end :
+	li $v0, 10
+	syscall
+
+#Déclaration de la fonction setA
+setA1: 
+# a = newA
+	lw $v0, -12($s7)
+	sw $v0, 0($s7)
+
+# Retourne newA
+	lw $v0, -12($s7)
+
+	jr $ra
+
+#Déclaration de la fonction setB
+setB1: 
+# b = newB
+	lw $v0, -20($s7)
+	sw $v0, -4($s7)
+
+# Retourne newB
+	lw $v0, -20($s7)
+
+	jr $ra

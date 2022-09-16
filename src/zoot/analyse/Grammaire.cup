@@ -1,0 +1,317 @@
+package zoot.analyse ;
+
+import java.util.*;
+import zoot.arbre.* ;
+import zoot.arbre.expressions.* ;
+import zoot.arbre.expressions.operateurs.binaires.* ;
+import zoot.arbre.expressions.operateurs.unaires.* ;
+import zoot.arbre.instructions.* ;
+import zoot.exceptions.*;
+import zoot.tableDesSymboles.*;
+import zoot.arbre.fonctions.*;
+import zoot.gestionErreurs.*;
+
+import java_cup.runtime.*;
+
+action code {:
+             :} ;
+
+parser code {:
+
+    public void report_error(String message, Object info) {
+
+        HashMap<Integer, String> lesTerminaux = new HashMap<>() ;
+
+        lesTerminaux.put(new Integer(CodesLexicaux.DEBUT), "debut") ;
+        lesTerminaux.put(new Integer(CodesLexicaux.FIN), "fin") ;
+        lesTerminaux.put(new Integer(CodesLexicaux.POINTVIRGULE), ";") ;
+
+        StringBuffer m = new StringBuffer() ;
+
+        if (info instanceof java_cup.runtime.Symbol) {
+            java_cup.runtime.Symbol s = ((java_cup.runtime.Symbol) info);
+
+            if (s.left >= 0) {
+                m.append("\tligne : " + (s.left + 1)) ;
+                if (s.right >= 0)
+                    m.append(" colonne : " + (s.right+1)) ;
+            }
+
+            if (s.value != null) {
+                lesTerminaux.put(CodesLexicaux.CSTENTIERE, "" + s.value) ;
+            }
+
+            if (lesTerminaux.containsKey(new Integer(s.sym))) {
+                m.append(" dernier token lu : " + lesTerminaux.get(new Integer(s.sym))) ;
+            }
+            else {
+                m.append(" expression non terminée") ;
+            }
+
+        }
+        throw new AnalyseSyntaxiqueException("" + m) ;
+    }
+
+    public void report_fatal_error(String message, Object info) {
+        report_error(message, info);
+    }
+:};
+
+/* ------------Declaration of Terminals and Non Terminals Section----------- */
+
+/* Terminals (tokens returned by the scanner).  */
+
+terminal Symbol    DEBUT, FIN, VARIABLES, POINTVIRGULE, VIRGULE, ECRIRE, EGAL, FONCTIONS, PAROUVRANTE, PARFERMANTE, RETOURNE, PLUS, MULT, MOINS, ET, OU, NON, DOUBLEEGAL, DIFFERENT, INFERIEUR, SI, ALORS, SINON, FINSI, REPETER, JUSQUA, FINREPETER;
+terminal String    IDF, CSTENTIERE, CSTBOOLEENNE, BOOLEEN, ENTIER;
+
+/* Non terminals used in the grammar section.  */
+
+non terminal ArbreAbstrait PROG, LINST, LDECL,LFONC, DECL,FONC, LDECL_LOC,DECL_LOC;
+non terminal Instruction INST;
+non terminal Expression EXP;
+non terminal String TYPE,PARAM, LDECL_PARAM,DECL_PARAM;
+non terminal ArrayList<Expression> LEXP;
+
+precedence left OU;
+precedence left ET;
+precedence left DIFFERENT;
+precedence left DOUBLEEGAL;
+precedence left INFERIEUR;
+precedence left PLUS;
+precedence left MULT;
+precedence left MOINS;
+precedence left NON;
+precedence left PAROUVRANTE, PARFERMANTE;
+
+/* ----------------------------Grammar Section-------------------- */
+
+start with PROG ;
+
+PROG    ::=     VARIABLES LDECL:ld FONCTIONS LFONC:lf DEBUT LINST:li  FIN
+                {: RESULT = li ; :}
+                ;
+
+LDECL   ::=     LDECL:ld  DECL:d
+                {:  :}
+        |
+                DECL:d
+                {: :}
+                ;
+
+LINST   ::=     LINST:li  INST:i
+                {: ((BlocDInstructions)li).ajouter(i) ;
+                   RESULT = li ; :}
+        |
+                INST:i
+                {: BlocDInstructions b = new BlocDInstructions(ileft + 1) ;
+                   b.ajouter(i) ;
+                   RESULT = b ; :}
+                ;
+
+LFONC   ::=     LFONC:lf  FONC:f
+                {: ((BlocDInstructions)lf).ajouter(f) ;
+                   RESULT = lf ; :}
+        |
+                FONC:f
+                {: BlocDInstructions b = new BlocDInstructions(fleft + 1) ;
+                   b.ajouter(f) ;
+                   RESULT = b ; :}
+                ;
+
+LDECL_PARAM ::= LDECL_PARAM:ld  DECL_PARAM:d
+                {: RESULT = ld + "," + d;:}
+        |
+                DECL_PARAM:d
+                {: RESULT = d;:}
+                ;
+
+LDECL_LOC ::=   LDECL_LOC:ld  DECL_LOC:d
+                {: :}
+        |
+                DECL_LOC:d
+                {: :}
+                ;
+
+INST    ::=     ECRIRE EXP:e POINTVIRGULE
+                {: RESULT = new Ecrire(e, eleft + 1) ; :}
+        |
+                IDF:i EGAL EXP:e POINTVIRGULE
+                {: RESULT = new Affect(new Idf(i,ileft+1), e, eleft+1) ; :}
+        |
+                RETOURNE EXP:e POINTVIRGULE
+                {: RESULT = new Retourne(eleft + 1, e); :}
+        |
+                SI EXP:e ALORS LINST:lia SINON LINST:lis FINSI
+                {: RESULT = new Conditionnelle(eleft + 1, e, lia, lis); :}
+        |
+                SI EXP:e ALORS SINON LINST:lis FINSI
+                {: RESULT = new Conditionnelle(eleft + 1, e, new BlocDInstructions(eleft + 1), lis); :}
+        |
+                SI EXP:e ALORS LINST:lia FINSI
+                {: RESULT = new Conditionnelle(eleft + 1, e, lia, new BlocDInstructions(eleft + 1)); :}
+        |
+                SI EXP:e ALORS FINSI
+                {: RESULT = new Conditionnelle(eleft + 1, e, new BlocDInstructions(eleft + 1), new BlocDInstructions(eleft + 1)); :}
+        |
+                REPETER LINST:li JUSQUA EXP:e FINREPETER
+                {: RESULT = new Boucle(eleft + 1, e, li); :}
+                ;
+
+EXP    ::=     CSTENTIERE:c
+                {: RESULT = new ConstanteEntiere(c, cleft + 1) ; :}
+        |
+               CSTBOOLEENNE:c
+               {: RESULT = new ConstanteBooleenne(c, cleft + 1) ; :}
+        |
+               IDF:i
+                {: RESULT = new Idf(i, ileft + 1) ; :}
+        |
+                IDF:i PAROUVRANTE PARFERMANTE
+                {: RESULT = new AppelFonction(ileft + 1, i) ; :}
+        |
+                IDF:i PAROUVRANTE LEXP:le PARFERMANTE
+                {: RESULT = new AppelFonction(ileft + 1, i, le); :}
+        |
+                EXP:eg DIFFERENT EXP:ed
+                {: RESULT = new Different(egleft + 1, eg, ed); :}
+        |
+                EXP:eg DOUBLEEGAL EXP:ed
+                {: RESULT = new DoubleEgal(egleft + 1, eg, ed); :}
+        |
+                EXP:eg INFERIEUR EXP:ed
+                {: RESULT = new Inferieur(egleft + 1, eg, ed); :}
+        |
+                EXP:eg PLUS EXP:ed
+                {: RESULT = new Addition(egleft + 1, eg, ed); :}
+        |
+                EXP:eg MULT EXP:ed
+                {: RESULT = new Multiplication(egleft + 1, eg, ed); :}
+        |
+                MOINS EXP:e
+                {: RESULT = new Moins(eleft + 1, e); :}
+        |
+                NON EXP:e
+                {: RESULT = new Non(eleft + 1, e); :}
+        |
+                EXP:eg ET EXP:ed
+                {: RESULT = new Et(egleft + 1, eg, ed); :}
+        |
+                EXP:eg OU EXP:ed
+                {: RESULT = new Ou(egleft + 1, eg, ed); :}
+        |
+                PAROUVRANTE EXP:e PARFERMANTE
+                {: RESULT = new Parenthese(eleft + 1, e); :}
+                ;
+
+LEXP    ::=     LEXP:le VIRGULE EXP:e
+                {: le.add(e) ;
+                   RESULT = le ;  :}
+        |
+                EXP:e
+                {: ArrayList<Expression> a = new ArrayList<>() ;
+                   a.add(e) ;
+                   RESULT = a ; :}
+                ;
+
+TYPE    ::=     ENTIER
+                {: RESULT = "entier"; :}
+        |
+                BOOLEEN
+                {: RESULT = "booleen"; :}
+                ;
+
+DECL    ::=     TYPE:t IDF:i POINTVIRGULE
+                {:
+                    try {
+                        TDS.getInstance().ajouter(new Entree(i,"variable"), new Symbole(t)) ;
+                    }
+                    catch (DoubleDeclarationException e){
+                        StockageErreurs.getInstance().ajouter(new Erreur(e.getMessage(), ileft + 1));
+                    }
+                :}
+                ;
+
+DECL_PARAM ::=  TYPE:t IDF:i POINTVIRGULE
+                {:
+                    TDS tds = TDS.getInstance();
+                    if (tds.getNoBlocActuel() == 0) {
+                        tds.entreeBloc();
+                    }
+                    try {
+                        tds.ajouter(new Entree(i,"variable"), new Symbole(t)) ;
+                    }
+                    catch (DoubleDeclarationException e){
+                        StockageErreurs.getInstance().ajouter(new Erreur(e.getMessage(), ileft + 1));
+                    }
+                    RESULT = t + "," + i;
+                :}
+                ;
+
+DECL_LOC ::=    TYPE:t IDF:i POINTVIRGULE
+                {:
+                    try {
+                        TDS.getInstance().ajouter(new Entree(i,"variable"), new Symbole(t)) ;
+                    }
+                    catch (DoubleDeclarationException e){
+                        StockageErreurs.getInstance().ajouter(new Erreur(e.getMessage(), ileft + 1));
+                    }
+                :}
+                ;
+
+PARAM   ::=     PAROUVRANTE PARFERMANTE
+                {:
+                    TDS tds = TDS.getInstance();
+                    if (tds.getNoBlocActuel() == 0) {
+                        tds.entreeBloc();
+                    }
+                    RESULT = "";
+                :}
+        |
+                PAROUVRANTE LDECL_PARAM:ld PARFERMANTE
+                {: RESULT = ld;:}
+                ;
+
+FONC   ::=      TYPE:t IDF:i PARAM:p VARIABLES DEBUT LINST:li FIN
+                {:
+                    int noBlocFonc = TDS.getInstance().getNoBlocActuel();
+                    TDS.getInstance().sortieBloc();
+                    String[] params = p.split(",");
+                    ArrayList<String> typeParams = new ArrayList<>();
+                    ArrayList<String> nomParams = new ArrayList<>();
+                    for (String s : params) {
+                        if (s.equals("entier") || s.equals("booleen"))
+                            typeParams.add(s);
+                        else
+                            nomParams.add(s);
+                    }
+                    GestionnaireFonctions.getInstance().ajouter(new Fonction(ileft + 1,i,li,typeParams, nomParams, noBlocFonc));
+                    try {
+                        TDS.getInstance().ajouter(new Entree(i,"fonction",typeParams), new Symbole(t)) ;
+                    }
+                    catch (DoubleDeclarationException e){
+                        StockageErreurs.getInstance().ajouter(new Erreur(e.getMessage(), ileft + 1));
+                    }
+                :}
+        |
+                TYPE:t IDF:i PARAM:p VARIABLES LDECL_LOC:ldl DEBUT LINST:li FIN
+                {:
+                    int noBlocFonc = TDS.getInstance().getNoBlocActuel();
+                    TDS.getInstance().sortieBloc();
+                    String[] params = p.split(",");
+                    ArrayList<String> typeParams = new ArrayList<>();
+                    ArrayList<String> nomParams = new ArrayList<>();
+                    for (String s : params) {
+                        if (s.equals("entier") || s.equals("booleen"))
+                            typeParams.add(s);
+                        else
+                            nomParams.add(s);
+                    }
+                    GestionnaireFonctions.getInstance().ajouter(new Fonction(ileft + 1,i,li,typeParams, nomParams, noBlocFonc));
+                    try {
+                        TDS.getInstance().ajouter(new Entree(i,"fonction",typeParams), new Symbole(t)) ;
+                    }
+                    catch (DoubleDeclarationException e){
+                        StockageErreurs.getInstance().ajouter(new Erreur(e.getMessage(), ileft + 1));
+                    }
+                :}
+                ;

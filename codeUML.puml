@@ -1,0 +1,271 @@
+@startuml
+class zoot.exceptions.AnalyseLexicaleException {
+}
+class zoot.tableDesSymboles.TDS {
+- HashMap<Entree,Symbole> tableDesSymboles
+- {static} TDS instance
++ {static} TDS getInstance()
++ void ajouter(Entree,Symbole)
++ Symbole identifier(Entree)
++ int getTailleZoneVariables()
+}
+class zoot.arbre.expressions.AppelFonction {
+- String idf
++ void verifier()
++ String toMIPS()
++ String getType()
++ boolean estUneVariable()
++ boolean estUnAppelDeFonction()
++ String getSignatureFonction()
+}
+class zoot.exceptions.DoubleDeclarationException {
+}
+class zoot.arbre.BlocDInstructions {
+# ArrayList<ArbreAbstrait> programme
++ void ajouter(ArbreAbstrait)
++ void verifier()
++ String toMIPS()
++ String toString()
+}
+class zoot.exceptions.AnalyseLexicaleSemantique {
+}
+class zoot.tableDesSymboles.Entree {
+- String idf
+- String type
++ String getIdf()
++ String getType()
+}
+abstract class zoot.arbre.instructions.Instruction {
+}
+class zoot.arbre.expressions.ConstanteEntiere {
++ String toMIPS()
++ String getType()
+}
+class zoot.exceptions.EntreeNonDeclareeException {
+}
+class zoot.analyse.AnalyseurLexical {
++ {static} int YYEOF
+- {static} int ZZ_BUFFERSIZE
++ {static} int YYINITIAL
+- {static} int[] ZZ_LEXSTATE
+- {static} String ZZ_CMAP_PACKED
+- {static} char[] ZZ_CMAP
+- {static} int[] ZZ_ACTION
+- {static} String ZZ_ACTION_PACKED_0
+- {static} int[] ZZ_ROWMAP
+- {static} String ZZ_ROWMAP_PACKED_0
+- {static} int[] ZZ_TRANS
+- {static} String ZZ_TRANS_PACKED_0
+- {static} int ZZ_UNKNOWN_ERROR
+- {static} int ZZ_NO_MATCH
+- {static} int ZZ_PUSHBACK_2BIG
+- {static} String[] ZZ_ERROR_MSG
+- {static} int[] ZZ_ATTRIBUTE
+- {static} String ZZ_ATTRIBUTE_PACKED_0
+- java.io.Reader zzReader
+- int zzState
+- int zzLexicalState
+- char[] zzBuffer
+- int zzMarkedPos
+- int zzCurrentPos
+- int zzStartRead
+- int zzEndRead
+- int yyline
+- int yychar
+- int yycolumn
+- boolean zzAtBOL
+- boolean zzAtEOF
+- boolean zzEOFDone
+- int zzFinalHighSurrogate
+- StringBuilder chaine
+- {static} int[] zzUnpackAction()
+- {static} int zzUnpackAction(String,int,int[])
+- {static} int[] zzUnpackRowMap()
+- {static} int zzUnpackRowMap(String,int,int[])
+- {static} int[] zzUnpackTrans()
+- {static} int zzUnpackTrans(String,int,int[])
+- {static} int[] zzUnpackAttribute()
+- {static} int zzUnpackAttribute(String,int,int[])
+- Symbol symbol(int)
+- Symbol symbol(int,Object)
+- {static} char[] zzUnpackCMap(String)
+- boolean zzRefill()
++ void yyclose()
++ void yyreset(java.io.Reader)
++ int yystate()
++ void yybegin(int)
++ String yytext()
++ char yycharat(int)
++ int yylength()
+- void zzScanError(int)
++ void yypushback(int)
+- void zzDoEOF()
++ Symbol next_token()
+}
+class zoot.exceptions.AnalyseSyntaxiqueException {
+}
+class zoot.analyse.AnalyseurSyntaxique {
+# {static} short[][] _production_table
+# {static} short[][] _action_table
+# {static} short[][] _reduce_table
+# CUP$AnalyseurSyntaxique$actions action_obj
++ short[][] production_table()
++ short[][] action_table()
++ short[][] reduce_table()
+# void init_actions()
++ java_cup.runtime.Symbol do_action(int,java_cup.runtime.lr_parser,java.util.Stack,int)
++ int start_state()
++ int start_production()
++ int EOF_sym()
++ int error_sym()
++ void report_error(String,Object)
++ void report_fatal_error(String,Object)
+}
+class zoot.analyse.CUP$AnalyseurSyntaxique$actions {
+- AnalyseurSyntaxique parser
++ java_cup.runtime.Symbol CUP$AnalyseurSyntaxique$do_action(int,java_cup.runtime.lr_parser,java.util.Stack,int)
+}
+class zoot.arbre.instructions.Affect {
+# Idf idf
+# Expression exp
++ void verifier()
++ String toMIPS()
+}
+abstract class zoot.arbre.expressions.Expression {
++ {abstract}String getType()
++ {abstract}boolean estUneVariable()
++ {abstract}boolean estUnAppelDeFonction()
++ String getSignatureFonction()
+}
+class zoot.arbre.instructions.Ecrire {
+# Expression exp
++ void verifier()
++ String toMIPS()
+}
+class zoot.gestionErreurs.Erreur {
+- String message
+- int numLigne
+- int numCarac
++ String getMessage()
++ void setMessage(String)
++ int getNumLigne()
++ void setNumLigne(int)
++ int getNumCarac()
++ void setNumCarac(int)
+}
+class zoot.arbre.expressions.Idf {
+- String nom
+- int depl
++ void verifier()
++ String toMIPS()
++ String getType()
++ String toString()
++ boolean estUneVariable()
++ boolean estUnAppelDeFonction()
+}
+class zoot.arbre.fonctions.Fonction {
+- String idf
+- ArbreAbstrait bloc
++ void verifier()
++ String toMIPS()
++ String getIdf()
+}
+abstract class zoot.arbre.expressions.Constante {
+# String cste
++ void verifier()
++ String toString()
++ boolean estUneVariable()
++ boolean estUnAppelDeFonction()
+}
+class zoot.arbre.fonctions.GestionnaireFonctions {
+- ArrayList<Fonction> fonctions
+- boolean fonctionsSontTraitees
+- {static} GestionnaireFonctions instance
++ {static} GestionnaireFonctions getInstance()
++ boolean isFonctionsSontTraitees()
++ void setFonctionsSontTraitees(boolean)
++ void ajouter(Fonction)
++ String toMipsFonctions()
++ void verifier()
++ ArrayList<Fonction> getFonctions()
++ Fonction getFonctionINumLigne(int)
+}
+class zoot.Zoot {
++ {static} void main(String[])
+}
+abstract class zoot.arbre.ArbreAbstrait {
+# int noLigne
++ int getNoLigne()
++ {abstract}void verifier()
++ {abstract}String toMIPS()
+}
+class zoot.analyse.CodesLexicaux {
++ {static} int FONCTIONS
++ {static} int ECRIRE
++ {static} int IDF
++ {static} int RETOURNE
++ {static} int PAROUVRANTE
++ {static} int DEBUT
++ {static} int PARFERMANTE
++ {static} int POINTVIRGULE
++ {static} int FIN
++ {static} int EOF
++ {static} int VARIABLES
++ {static} int CSTBOOLEENNE
++ {static} int EGAL
++ {static} int ENTIER
++ {static} int error
++ {static} int CSTENTIERE
++ {static} int BOOLEEN
+}
+class zoot.arbre.expressions.ConstanteBooleenne {
++ String toMIPS()
++ String getType()
+}
+class zoot.arbre.instructions.Retourne {
+- Expression exp
++ void verifier()
++ String toMIPS()
+}
+class zoot.gestionErreurs.StockageErreurs {
+- ArrayList<Erreur> listeErreurs
+- {static} StockageErreurs instance
++ {static} StockageErreurs getInstance()
++ void ajouter(Erreur)
++ Erreur getErreurI(int)
++ int getNbErreurs()
++ ArrayList<Erreur> getListeErreurs()
+}
+class zoot.tableDesSymboles.Symbole {
+- String type
+- int deplacement
++ String getType()
++ void setType(String)
++ int getDeplacement()
++ void setDeplacement(int)
+}
+abstract class zoot.exceptions.AnalyseException {
+}
+
+
+zoot.exceptions.AnalyseException <|-- zoot.exceptions.AnalyseLexicaleException
+zoot.arbre.expressions.Expression <|-- zoot.arbre.expressions.AppelFonction
+zoot.exceptions.AnalyseLexicaleSemantique <|-- zoot.exceptions.DoubleDeclarationException
+zoot.arbre.ArbreAbstrait <|-- zoot.arbre.BlocDInstructions
+zoot.exceptions.AnalyseException <|-- zoot.exceptions.AnalyseLexicaleSemantique
+zoot.arbre.ArbreAbstrait <|-- zoot.arbre.instructions.Instruction
+zoot.arbre.expressions.Constante <|-- zoot.arbre.expressions.ConstanteEntiere
+zoot.exceptions.AnalyseLexicaleSemantique <|-- zoot.exceptions.EntreeNonDeclareeException
+zoot.analyse.Scanner <|.. zoot.analyse.AnalyseurLexical
+zoot.exceptions.AnalyseException <|-- zoot.exceptions.AnalyseSyntaxiqueException
+zoot.analyse.lr_parser <|-- zoot.analyse.AnalyseurSyntaxique
+zoot.arbre.instructions.Instruction <|-- zoot.arbre.instructions.Affect
+zoot.arbre.ArbreAbstrait <|-- zoot.arbre.expressions.Expression
+zoot.arbre.instructions.Instruction <|-- zoot.arbre.instructions.Ecrire
+zoot.arbre.expressions.Expression <|-- zoot.arbre.expressions.Idf
+zoot.arbre.ArbreAbstrait <|-- zoot.arbre.fonctions.Fonction
+zoot.arbre.expressions.Expression <|-- zoot.arbre.expressions.Constante
+zoot.arbre.expressions.Constante <|-- zoot.arbre.expressions.ConstanteBooleenne
+zoot.arbre.instructions.Instruction <|-- zoot.arbre.instructions.Retourne
+zoot.exceptions.RuntimeException <|-- zoot.exceptions.AnalyseException
+@enduml

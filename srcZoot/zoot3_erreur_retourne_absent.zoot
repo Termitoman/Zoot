@@ -1,0 +1,24 @@
+variables
+    entier x;
+fonctions
+booleen fonc2(booleen a;)
+variables
+    booleen x;
+debut
+    x = vrai;
+    retourne a;
+fin
+
+booleen fonc2(booleen a;booleen b;booleen c;)
+variables
+debut
+    x = 5;
+    c = fonc2(b);
+fin
+debut
+    x = 6;
+    ecrire x;
+    ecrire fonc2(faux);
+    ecrire fonc2(vrai,faux,vrai);
+    ecrire x;
+fin

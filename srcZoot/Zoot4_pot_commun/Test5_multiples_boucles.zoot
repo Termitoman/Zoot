@@ -1,0 +1,47 @@
+// 1
+// 2
+// 1
+// 1
+// 2
+// vrai
+// 2
+// 1
+
+variables
+    entier a;
+    entier b;
+    entier c;
+fonctions
+    entier setA(entier newA;)
+    variables
+    debut
+        a = newA;
+        retourne newA;
+    fin
+    entier setB(entier newB;)
+    variables
+    debut
+        b = newB;
+        retourne newB;
+    fin
+debut
+    a = 0;
+    b = 0;
+    c = 1;
+    repeter
+        repeter
+            ecrire setB(b+1);
+            si a == 1 alors
+                si non(b < 2) alors
+                    ecrire vrai;
+                finsi
+            finsi
+        jusqua non(b < 2) finrepeter
+        b = 0;
+        ecrire setA(a + 1);
+    jusqua non(a < 2) finrepeter
+
+    repeter
+        ecrire 1;
+    jusqua non(a < 0) finrepeter
+fin

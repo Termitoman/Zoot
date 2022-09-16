@@ -1,0 +1,360 @@
+#IOPETI Hugo & YVOZ Ludovic
+
+.data
+vrai:	.word 1
+faux:	.word 0
+vraiAff:	.asciiz "vrai"
+fauxAff:	.asciiz "faux"
+sautLigne:	.asciiz "\n"
+.text
+main :
+
+# Initialiser $t0 avec la valeur faux
+	la $t0, faux
+
+# Initialiser $s7 avec $sp
+	move $s7, $sp
+
+# Réserver la place pour 17 variables
+	add $sp, $sp, -68
+
+# Ecrire 42
+	li $v0, 42
+	move $a0, $v0
+	li $v0, 1
+	syscall
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Ecrire faux
+	la $v0, faux
+	beq $t0, $v0, Sinon46
+	la $a0, vraiAff
+	li $v0, 4
+	syscall
+	b FinSi46
+Sinon46:
+	la $a0, fauxAff
+	li $v0, 4
+	syscall
+FinSi46:
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Ecrire vrai
+	la $v0, vrai
+	beq $t0, $v0, Sinon47
+	la $a0, vraiAff
+	li $v0, 4
+	syscall
+	b FinSi47
+Sinon47:
+	la $a0, fauxAff
+	li $v0, 4
+	syscall
+FinSi47:
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# a = 5
+	li $v0, 5
+	sw $v0, 0($s7)
+
+# c = a
+	lw $v0, 0($s7)
+	sw $v0, -8($s7)
+
+# b = vrai
+	la $v0, vrai
+	sw $v0, -4($s7)
+
+# d = faux
+	la $v0, faux
+	sw $v0, -12($s7)
+
+# Ecrire a
+	lw $v0, 0($s7)
+	move $a0, $v0
+	li $v0, 1
+	syscall
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Ecrire b
+	lw $v0, -4($s7)
+	beq $t0, $v0, Sinon53
+	la $a0, vraiAff
+	li $v0, 4
+	syscall
+	b FinSi53
+Sinon53:
+	la $a0, fauxAff
+	li $v0, 4
+	syscall
+FinSi53:
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Ecrire c
+	lw $v0, -8($s7)
+	move $a0, $v0
+	li $v0, 1
+	syscall
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Ecrire d
+	lw $v0, -12($s7)
+	beq $t0, $v0, Sinon55
+	la $a0, vraiAff
+	li $v0, 4
+	syscall
+	b FinSi55
+Sinon55:
+	la $a0, fauxAff
+	li $v0, 4
+	syscall
+FinSi55:
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Ecrire fonc1 (entier,booleen)
+
+# Sauvegarde des registres avant l'appel de fonction.
+	sw $ra,0($sp)
+	sw $s1,-4($sp)
+	addi $sp,$sp,-8
+	# Passage des valeurs dans les paramètres de la fonction appelée.
+	li $v0, 42
+	sw $v0, -40($s7)
+	la $v0, faux
+	sw $v0, -44($s7)
+	# Appel de la fonction.
+	jal fonc12
+	# Restauration des registres après l'appel de fonction.
+	lw $s1,4($sp)
+	lw $ra,8($sp)
+	addi $sp,$sp,8
+	move $a0, $v0
+	li $v0, 1
+	syscall
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Ecrire fonc2 (entier,entier,booleen)
+
+# Sauvegarde des registres avant l'appel de fonction.
+	sw $ra,0($sp)
+	sw $s1,-4($sp)
+	addi $sp,$sp,-8
+	# Passage des valeurs dans les paramètres de la fonction appelée.
+	li $v0, 1
+	sw $v0, -16($s7)
+	li $v0, 5
+	sw $v0, -20($s7)
+	la $v0, vrai
+	sw $v0, -24($s7)
+	# Appel de la fonction.
+	jal fonc23
+	# Restauration des registres après l'appel de fonction.
+	lw $s1,4($sp)
+	lw $ra,8($sp)
+	addi $sp,$sp,8
+	move $a0, $v0
+	li $v0, 1
+	syscall
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Ecrire fonc3 ()
+
+# Sauvegarde des registres avant l'appel de fonction.
+	sw $ra,0($sp)
+	sw $s1,-4($sp)
+	addi $sp,$sp,-8
+	# Passage des valeurs dans les paramètres de la fonction appelée.
+	# Appel de la fonction.
+	jal fonc30
+	# Restauration des registres après l'appel de fonction.
+	lw $s1,4($sp)
+	lw $ra,8($sp)
+	addi $sp,$sp,8
+	beq $t0, $v0, Sinon58
+	la $a0, vraiAff
+	li $v0, 4
+	syscall
+	b FinSi58
+Sinon58:
+	la $a0, fauxAff
+	li $v0, 4
+	syscall
+FinSi58:
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Ecrire fonc2 ()
+
+# Sauvegarde des registres avant l'appel de fonction.
+	sw $ra,0($sp)
+	sw $s1,-4($sp)
+	addi $sp,$sp,-8
+	# Passage des valeurs dans les paramètres de la fonction appelée.
+	# Appel de la fonction.
+	jal fonc20
+	# Restauration des registres après l'appel de fonction.
+	lw $s1,4($sp)
+	lw $ra,8($sp)
+	addi $sp,$sp,8
+	beq $t0, $v0, Sinon59
+	la $a0, vraiAff
+	li $v0, 4
+	syscall
+	b FinSi59
+Sinon59:
+	la $a0, fauxAff
+	li $v0, 4
+	syscall
+FinSi59:
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+end :
+	li $v0, 10
+	syscall
+
+#Déclaration de la fonction fonc2
+fonc23: 
+# a = 42
+	li $v0, 42
+	sw $v0, -28($s7)
+
+# b = a
+	lw $v0, -28($s7)
+	sw $v0, -32($s7)
+
+# Retourne b
+	lw $v0, -32($s7)
+
+	jr $ra
+
+#Déclaration de la fonction fonc1
+fonc12: 
+# Ecrire c
+	lw $v0, -44($s7)
+	beq $t0, $v0, Sinon22
+	la $a0, vraiAff
+	li $v0, 4
+	syscall
+	b FinSi22
+Sinon22:
+	la $a0, fauxAff
+	li $v0, 4
+	syscall
+FinSi22:
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Ecrire z
+	lw $v0, -40($s7)
+	move $a0, $v0
+	li $v0, 1
+	syscall
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Ecrire fonc2 ()
+
+# Sauvegarde des registres avant l'appel de fonction.
+	sw $ra,0($sp)
+	sw $s1,-4($sp)
+	addi $sp,$sp,-8
+	# Passage des valeurs dans les paramètres de la fonction appelée.
+	# Appel de la fonction.
+	jal fonc20
+	# Restauration des registres après l'appel de fonction.
+	lw $s1,4($sp)
+	lw $ra,8($sp)
+	addi $sp,$sp,8
+	beq $t0, $v0, Sinon24
+	la $a0, vraiAff
+	li $v0, 4
+	syscall
+	b FinSi24
+Sinon24:
+	la $a0, fauxAff
+	li $v0, 4
+	syscall
+FinSi24:
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Retourne fonc2 (entier,entier,booleen)
+
+# Sauvegarde des registres avant l'appel de fonction.
+	sw $ra,0($sp)
+	sw $s1,-4($sp)
+	addi $sp,$sp,-8
+	# Passage des valeurs dans les paramètres de la fonction appelée.
+	li $v0, 1
+	sw $v0, -16($s7)
+	li $v0, 5
+	sw $v0, -20($s7)
+	la $v0, vrai
+	sw $v0, -24($s7)
+	# Appel de la fonction.
+	jal fonc23
+	# Restauration des registres après l'appel de fonction.
+	lw $s1,4($sp)
+	lw $ra,8($sp)
+	addi $sp,$sp,8
+
+	jr $ra
+
+#Déclaration de la fonction fonc3
+fonc30: 
+# bool = faux
+	la $v0, faux
+	sw $v0, -56($s7)
+
+# z = 4
+	li $v0, 4
+	sw $v0, -52($s7)
+
+# Retourne bool
+	lw $v0, -56($s7)
+
+	jr $ra
+
+#Déclaration de la fonction fonc2
+fonc20: 
+# Ecrire vrai
+	la $v0, vrai
+	beq $t0, $v0, Sinon40
+	la $a0, vraiAff
+	li $v0, 4
+	syscall
+	b FinSi40
+Sinon40:
+	la $a0, fauxAff
+	li $v0, 4
+	syscall
+FinSi40:
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+	jr $ra

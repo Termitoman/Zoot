@@ -1,0 +1,763 @@
+#IOPETI Hugo & YVOZ Ludovic
+
+.data
+vrai:	.word 1
+faux:	.word 0
+vraiAff:	.asciiz "vrai"
+fauxAff:	.asciiz "faux"
+sautLigne:	.asciiz "\n"
+.text
+main :
+
+# Initialiser $s7 avec $sp
+	move $s7, $sp
+
+# Réserver la place pour 26 variables
+	add $sp, $sp, -104
+
+# initV = faux
+	la $v0, faux
+	sw $v0, -4($s7)
+
+# Ecrire init ()
+
+# Sauvegarde des registres avant l'appel de fonction.
+	sw $ra,0($sp)
+	sw $s1,-4($sp)
+	addi $sp,$sp,-8
+	# Passage des valeurs dans les paramètres de la fonction appelée.
+	# Appel de la fonction.
+	jal init0
+	# Restauration des registres après l'appel de fonction.
+	lw $s1,4($sp)
+	lw $ra,8($sp)
+	addi $sp,$sp,8
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon131
+	la $a0, vraiAff
+	li $v0, 4
+	syscall
+	b FinSi131
+Sinon131:
+	la $a0, fauxAff
+	li $v0, 4
+	syscall
+FinSi131:
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Ecrire getBoeuf ()
+
+# Sauvegarde des registres avant l'appel de fonction.
+	sw $ra,0($sp)
+	sw $s1,-4($sp)
+	addi $sp,$sp,-8
+	# Passage des valeurs dans les paramètres de la fonction appelée.
+	# Appel de la fonction.
+	jal getBoeuf0
+	# Restauration des registres après l'appel de fonction.
+	lw $s1,4($sp)
+	lw $ra,8($sp)
+	addi $sp,$sp,8
+	move $a0, $v0
+	li $v0, 1
+	syscall
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Ecrire getPoissons ()
+
+# Sauvegarde des registres avant l'appel de fonction.
+	sw $ra,0($sp)
+	sw $s1,-4($sp)
+	addi $sp,$sp,-8
+	# Passage des valeurs dans les paramètres de la fonction appelée.
+	# Appel de la fonction.
+	jal getPoissons0
+	# Restauration des registres après l'appel de fonction.
+	lw $s1,4($sp)
+	lw $ra,8($sp)
+	addi $sp,$sp,8
+	move $a0, $v0
+	li $v0, 1
+	syscall
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Ecrire getPoulet ()
+
+# Sauvegarde des registres avant l'appel de fonction.
+	sw $ra,0($sp)
+	sw $s1,-4($sp)
+	addi $sp,$sp,-8
+	# Passage des valeurs dans les paramètres de la fonction appelée.
+	# Appel de la fonction.
+	jal getPoulet0
+	# Restauration des registres après l'appel de fonction.
+	lw $s1,4($sp)
+	lw $ra,8($sp)
+	addi $sp,$sp,8
+	move $a0, $v0
+	li $v0, 1
+	syscall
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Ecrire getManger ()
+
+# Sauvegarde des registres avant l'appel de fonction.
+	sw $ra,0($sp)
+	sw $s1,-4($sp)
+	addi $sp,$sp,-8
+	# Passage des valeurs dans les paramètres de la fonction appelée.
+	# Appel de la fonction.
+	jal getManger0
+	# Restauration des registres après l'appel de fonction.
+	lw $s1,4($sp)
+	lw $ra,8($sp)
+	addi $sp,$sp,8
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon136
+	la $a0, vraiAff
+	li $v0, 4
+	syscall
+	b FinSi136
+Sinon136:
+	la $a0, fauxAff
+	li $v0, 4
+	syscall
+FinSi136:
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Ecrire manger (entier,entier,entier)
+
+# Sauvegarde des registres avant l'appel de fonction.
+	sw $ra,0($sp)
+	sw $s1,-4($sp)
+	addi $sp,$sp,-8
+	# Passage des valeurs dans les paramètres de la fonction appelée.
+	li $v0, 9
+	sw $v0, -68($s7)
+	li $v0, 4
+	sw $v0, -72($s7)
+	li $v0, 199
+	sw $v0, -76($s7)
+	# Appel de la fonction.
+	jal manger3
+	# Restauration des registres après l'appel de fonction.
+	lw $s1,4($sp)
+	lw $ra,8($sp)
+	addi $sp,$sp,8
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon138
+	la $a0, vraiAff
+	li $v0, 4
+	syscall
+	b FinSi138
+Sinon138:
+	la $a0, fauxAff
+	li $v0, 4
+	syscall
+FinSi138:
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Ecrire digerer ()
+
+# Sauvegarde des registres avant l'appel de fonction.
+	sw $ra,0($sp)
+	sw $s1,-4($sp)
+	addi $sp,$sp,-8
+	# Passage des valeurs dans les paramètres de la fonction appelée.
+	# Appel de la fonction.
+	jal digerer0
+	# Restauration des registres après l'appel de fonction.
+	lw $s1,4($sp)
+	lw $ra,8($sp)
+	addi $sp,$sp,8
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon140
+	la $a0, vraiAff
+	li $v0, 4
+	syscall
+	b FinSi140
+Sinon140:
+	la $a0, fauxAff
+	li $v0, 4
+	syscall
+FinSi140:
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Ecrire getBoeuf ()
+
+# Sauvegarde des registres avant l'appel de fonction.
+	sw $ra,0($sp)
+	sw $s1,-4($sp)
+	addi $sp,$sp,-8
+	# Passage des valeurs dans les paramètres de la fonction appelée.
+	# Appel de la fonction.
+	jal getBoeuf0
+	# Restauration des registres après l'appel de fonction.
+	lw $s1,4($sp)
+	lw $ra,8($sp)
+	addi $sp,$sp,8
+	move $a0, $v0
+	li $v0, 1
+	syscall
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Ecrire getPoissons ()
+
+# Sauvegarde des registres avant l'appel de fonction.
+	sw $ra,0($sp)
+	sw $s1,-4($sp)
+	addi $sp,$sp,-8
+	# Passage des valeurs dans les paramètres de la fonction appelée.
+	# Appel de la fonction.
+	jal getPoissons0
+	# Restauration des registres après l'appel de fonction.
+	lw $s1,4($sp)
+	lw $ra,8($sp)
+	addi $sp,$sp,8
+	move $a0, $v0
+	li $v0, 1
+	syscall
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Ecrire getPoulet ()
+
+# Sauvegarde des registres avant l'appel de fonction.
+	sw $ra,0($sp)
+	sw $s1,-4($sp)
+	addi $sp,$sp,-8
+	# Passage des valeurs dans les paramètres de la fonction appelée.
+	# Appel de la fonction.
+	jal getPoulet0
+	# Restauration des registres après l'appel de fonction.
+	lw $s1,4($sp)
+	lw $ra,8($sp)
+	addi $sp,$sp,8
+	move $a0, $v0
+	li $v0, 1
+	syscall
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Ecrire getManger ()
+
+# Sauvegarde des registres avant l'appel de fonction.
+	sw $ra,0($sp)
+	sw $s1,-4($sp)
+	addi $sp,$sp,-8
+	# Passage des valeurs dans les paramètres de la fonction appelée.
+	# Appel de la fonction.
+	jal getManger0
+	# Restauration des registres après l'appel de fonction.
+	lw $s1,4($sp)
+	lw $ra,8($sp)
+	addi $sp,$sp,8
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon145
+	la $a0, vraiAff
+	li $v0, 4
+	syscall
+	b FinSi145
+Sinon145:
+	la $a0, fauxAff
+	li $v0, 4
+	syscall
+FinSi145:
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Ecrire cycle ()
+
+# Sauvegarde des registres avant l'appel de fonction.
+	sw $ra,0($sp)
+	sw $s1,-4($sp)
+	addi $sp,$sp,-8
+	# Passage des valeurs dans les paramètres de la fonction appelée.
+	# Appel de la fonction.
+	jal cycle0
+	# Restauration des registres après l'appel de fonction.
+	lw $s1,4($sp)
+	lw $ra,8($sp)
+	addi $sp,$sp,8
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon147
+	la $a0, vraiAff
+	li $v0, 4
+	syscall
+	b FinSi147
+Sinon147:
+	la $a0, fauxAff
+	li $v0, 4
+	syscall
+FinSi147:
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Ecrire testerParams (entier,entier,entier)
+
+# Sauvegarde des registres avant l'appel de fonction.
+	sw $ra,0($sp)
+	sw $s1,-4($sp)
+	addi $sp,$sp,-8
+	# Passage des valeurs dans les paramètres de la fonction appelée.
+	li $v0, 1
+	sw $v0, -52($s7)
+	li $v0, 2
+	sw $v0, -56($s7)
+	li $v0, 3
+	sw $v0, -60($s7)
+	# Appel de la fonction.
+	jal testerParams3
+	# Restauration des registres après l'appel de fonction.
+	lw $s1,4($sp)
+	lw $ra,8($sp)
+	addi $sp,$sp,8
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon149
+	la $a0, vraiAff
+	li $v0, 4
+	syscall
+	b FinSi149
+Sinon149:
+	la $a0, fauxAff
+	li $v0, 4
+	syscall
+FinSi149:
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Ecrire setManger (booleen)
+
+# Sauvegarde des registres avant l'appel de fonction.
+	sw $ra,0($sp)
+	sw $s1,-4($sp)
+	addi $sp,$sp,-8
+	# Passage des valeurs dans les paramètres de la fonction appelée.
+	la $v0, vrai
+	sw $v0, -28($s7)
+	# Appel de la fonction.
+	jal setManger1
+	# Restauration des registres après l'appel de fonction.
+	lw $s1,4($sp)
+	lw $ra,8($sp)
+	addi $sp,$sp,8
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon151
+	la $a0, vraiAff
+	li $v0, 4
+	syscall
+	b FinSi151
+Sinon151:
+	la $a0, fauxAff
+	li $v0, 4
+	syscall
+FinSi151:
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Ecrire aMange
+	lw $v0, -20($s7)
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon153
+	la $a0, vraiAff
+	li $v0, 4
+	syscall
+	b FinSi153
+Sinon153:
+	la $a0, fauxAff
+	li $v0, 4
+	syscall
+FinSi153:
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# var = var
+	lw $v0, 0($s7)
+	sw $v0, 0($s7)
+
+end :
+	li $v0, 10
+	syscall
+
+#Déclaration de la fonction init
+init0: 
+# initV = vrai
+	la $v0, vrai
+	sw $v0, -4($s7)
+
+# var = 6
+	li $v0, 6
+	sw $v0, 0($s7)
+
+# poissons = 10
+	li $v0, 10
+	sw $v0, -8($s7)
+
+# boeuf = 5
+	li $v0, 5
+	sw $v0, -12($s7)
+
+# poulet = 200
+	li $v0, 200
+	sw $v0, -16($s7)
+
+# Retourne initV
+	lw $v0, -4($s7)
+
+	jr $ra
+
+#Déclaration de la fonction setManger
+setManger1: 
+# aMange = mange
+	lw $v0, -28($s7)
+	sw $v0, -20($s7)
+
+# Retourne aMange
+	lw $v0, -20($s7)
+
+	jr $ra
+
+#Déclaration de la fonction getManger
+getManger0: 
+# Retourne aMange
+	lw $v0, -20($s7)
+
+	jr $ra
+
+#Déclaration de la fonction getPoissons
+getPoissons0: 
+# Retourne poissons
+	lw $v0, -8($s7)
+
+	jr $ra
+
+#Déclaration de la fonction getBoeuf
+getBoeuf0: 
+# Retourne boeuf
+	lw $v0, -12($s7)
+
+	jr $ra
+
+#Déclaration de la fonction getPoulet
+getPoulet0: 
+# Retourne poulet
+	lw $v0, -16($s7)
+
+	jr $ra
+
+#Déclaration de la fonction testerParams
+testerParams3: 
+# Ecrire var
+	lw $v0, 0($s7)
+	move $a0, $v0
+	li $v0, 1
+	syscall
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Ecrire x
+	lw $v0, -52($s7)
+	move $a0, $v0
+	li $v0, 1
+	syscall
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Ecrire y
+	lw $v0, -56($s7)
+	move $a0, $v0
+	li $v0, 1
+	syscall
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Ecrire z
+	lw $v0, -60($s7)
+	move $a0, $v0
+	li $v0, 1
+	syscall
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Retourne manger (entier,entier,entier)
+
+# Sauvegarde des registres avant l'appel de fonction.
+	sw $ra,0($sp)
+	sw $s1,-4($sp)
+	addi $sp,$sp,-8
+	# Passage des valeurs dans les paramètres de la fonction appelée.
+	lw $v0, -52($s7)
+	sw $v0, -68($s7)
+	lw $v0, -56($s7)
+	sw $v0, -72($s7)
+	lw $v0, -60($s7)
+	sw $v0, -76($s7)
+	# Appel de la fonction.
+	jal manger3
+	# Restauration des registres après l'appel de fonction.
+	lw $s1,4($sp)
+	lw $ra,8($sp)
+	addi $sp,$sp,8
+
+	jr $ra
+
+#Déclaration de la fonction manger
+manger3: 
+# poissons = newPoissons
+	lw $v0, -68($s7)
+	sw $v0, -8($s7)
+
+# boeuf = newBoeuf
+	lw $v0, -72($s7)
+	sw $v0, -12($s7)
+
+# poulet = newPoulet
+	lw $v0, -76($s7)
+	sw $v0, -16($s7)
+
+# aMange = vrai
+	la $v0, vrai
+	sw $v0, -20($s7)
+
+# Retourne vrai
+	la $v0, vrai
+
+	jr $ra
+
+#Déclaration de la fonction digerer
+digerer0: 
+# aMange = faux
+	la $v0, faux
+	sw $v0, -20($s7)
+
+# Retourne vrai
+	la $v0, vrai
+
+	jr $ra
+
+#Déclaration de la fonction cycle
+cycle0: 
+# appel = init ()
+
+# Sauvegarde des registres avant l'appel de fonction.
+	sw $ra,0($sp)
+	sw $s1,-4($sp)
+	addi $sp,$sp,-8
+	# Passage des valeurs dans les paramètres de la fonction appelée.
+	# Appel de la fonction.
+	jal init0
+	# Restauration des registres après l'appel de fonction.
+	lw $s1,4($sp)
+	lw $ra,8($sp)
+	addi $sp,$sp,8
+	sw $v0, -88($s7)
+
+# Ecrire getBoeuf ()
+
+# Sauvegarde des registres avant l'appel de fonction.
+	sw $ra,0($sp)
+	sw $s1,-4($sp)
+	addi $sp,$sp,-8
+	# Passage des valeurs dans les paramètres de la fonction appelée.
+	# Appel de la fonction.
+	jal getBoeuf0
+	# Restauration des registres après l'appel de fonction.
+	lw $s1,4($sp)
+	lw $ra,8($sp)
+	addi $sp,$sp,8
+	move $a0, $v0
+	li $v0, 1
+	syscall
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Ecrire getPoissons ()
+
+# Sauvegarde des registres avant l'appel de fonction.
+	sw $ra,0($sp)
+	sw $s1,-4($sp)
+	addi $sp,$sp,-8
+	# Passage des valeurs dans les paramètres de la fonction appelée.
+	# Appel de la fonction.
+	jal getPoissons0
+	# Restauration des registres après l'appel de fonction.
+	lw $s1,4($sp)
+	lw $ra,8($sp)
+	addi $sp,$sp,8
+	move $a0, $v0
+	li $v0, 1
+	syscall
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Ecrire getPoulet ()
+
+# Sauvegarde des registres avant l'appel de fonction.
+	sw $ra,0($sp)
+	sw $s1,-4($sp)
+	addi $sp,$sp,-8
+	# Passage des valeurs dans les paramètres de la fonction appelée.
+	# Appel de la fonction.
+	jal getPoulet0
+	# Restauration des registres après l'appel de fonction.
+	lw $s1,4($sp)
+	lw $ra,8($sp)
+	addi $sp,$sp,8
+	move $a0, $v0
+	li $v0, 1
+	syscall
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Ecrire getManger ()
+
+# Sauvegarde des registres avant l'appel de fonction.
+	sw $ra,0($sp)
+	sw $s1,-4($sp)
+	addi $sp,$sp,-8
+	# Passage des valeurs dans les paramètres de la fonction appelée.
+	# Appel de la fonction.
+	jal getManger0
+	# Restauration des registres après l'appel de fonction.
+	lw $s1,4($sp)
+	lw $ra,8($sp)
+	addi $sp,$sp,8
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon118
+	la $a0, vraiAff
+	li $v0, 4
+	syscall
+	b FinSi118
+Sinon118:
+	la $a0, fauxAff
+	li $v0, 4
+	syscall
+FinSi118:
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# appelManger = manger (entier,entier,entier)
+
+# Sauvegarde des registres avant l'appel de fonction.
+	sw $ra,0($sp)
+	sw $s1,-4($sp)
+	addi $sp,$sp,-8
+	# Passage des valeurs dans les paramètres de la fonction appelée.
+	li $v0, 8
+	sw $v0, -68($s7)
+	li $v0, 3
+	sw $v0, -72($s7)
+	li $v0, 198
+	sw $v0, -76($s7)
+	# Appel de la fonction.
+	jal manger3
+	# Restauration des registres après l'appel de fonction.
+	lw $s1,4($sp)
+	lw $ra,8($sp)
+	addi $sp,$sp,8
+	sw $v0, -92($s7)
+
+# Ecrire appel
+	lw $v0, -88($s7)
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon122
+	la $a0, vraiAff
+	li $v0, 4
+	syscall
+	b FinSi122
+Sinon122:
+	la $a0, fauxAff
+	li $v0, 4
+	syscall
+FinSi122:
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Ecrire appelManger
+	lw $v0, -92($s7)
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon123
+	la $a0, vraiAff
+	li $v0, 4
+	syscall
+	b FinSi123
+Sinon123:
+	la $a0, fauxAff
+	li $v0, 4
+	syscall
+FinSi123:
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Retourne digerer ()
+
+# Sauvegarde des registres avant l'appel de fonction.
+	sw $ra,0($sp)
+	sw $s1,-4($sp)
+	addi $sp,$sp,-8
+	# Passage des valeurs dans les paramètres de la fonction appelée.
+	# Appel de la fonction.
+	jal digerer0
+	# Restauration des registres après l'appel de fonction.
+	lw $s1,4($sp)
+	lw $ra,8($sp)
+	addi $sp,$sp,8
+
+	jr $ra

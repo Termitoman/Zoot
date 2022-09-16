@@ -1,0 +1,15 @@
+variables
+
+entier a;
+
+fonctions
+
+entier fonc2()
+debut
+    retourne 42;
+fin
+
+debut
+    fonc2 = 1;
+    ecrire 42;
+fin

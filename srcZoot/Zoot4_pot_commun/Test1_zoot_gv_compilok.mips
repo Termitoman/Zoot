@@ -1,0 +1,565 @@
+#IOPETI Hugo & YVOZ Ludovic
+
+.data
+vrai:	.word 1
+faux:	.word 0
+vraiAff:	.asciiz "vrai"
+fauxAff:	.asciiz "faux"
+sautLigne:	.asciiz "\n"
+.text
+main :
+
+# Initialiser $s7 avec $sp
+	move $s7, $sp
+
+# Réserver la place pour 15 variables
+	add $sp, $sp, -60
+
+# initV = faux
+	la $v0, faux
+	sw $v0, 0($s7)
+
+# Si non(initV) 
+		lw $v0, 0($s7)
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon15
+	la $v0, faux
+	b FinSi15
+Sinon15:
+	la $v0, vrai
+FinSi15:
+
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon17
+# Alors 
+# Ecrire init()
+
+# Sauvegarde des registres avant l'appel de fonction.
+	sw $ra,0($sp)
+	sw $s1,-4($sp)
+	addi $sp,$sp,-8
+	# Passage des valeurs dans les paramètres de la fonction appelée.
+	# Appel de la fonction.
+	jal init0
+	# Restauration des registres après l'appel de fonction.
+	lw $s1,4($sp)
+	lw $ra,8($sp)
+	addi $sp,$sp,8
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon16
+	la $a0, vraiAff
+	li $v0, 4
+	syscall
+	b FinSi16
+Sinon16:
+	la $a0, fauxAff
+	li $v0, 4
+	syscall
+FinSi16:
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+	b FinSi17
+Sinon17:
+# Sinon 
+FinSi17:
+
+# Répeter ... jusqu'a estMort
+Boucle27:
+# Ecrire manger(10,10,10)
+
+# Sauvegarde des registres avant l'appel de fonction.
+	sw $ra,0($sp)
+	sw $s1,-4($sp)
+	addi $sp,$sp,-8
+	# Passage des valeurs dans les paramètres de la fonction appelée.
+	li $v0, 10
+	sw $v0, -40($s7)
+	li $v0, 10
+	sw $v0, -44($s7)
+	li $v0, 10
+	sw $v0, -48($s7)
+	# Appel de la fonction.
+	jal manger3
+	# Restauration des registres après l'appel de fonction.
+	lw $s1,4($sp)
+	lw $ra,8($sp)
+	addi $sp,$sp,8
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon18
+	la $a0, vraiAff
+	li $v0, 4
+	syscall
+	b FinSi18
+Sinon18:
+	la $a0, fauxAff
+	li $v0, 4
+	syscall
+FinSi18:
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Ecrire poulet
+	lw $v0, -12($s7)
+	move $a0, $v0
+	li $v0, 1
+	syscall
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Ecrire boeuf
+	lw $v0, -8($s7)
+	move $a0, $v0
+	li $v0, 1
+	syscall
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Ecrire poissons
+	lw $v0, -4($s7)
+	move $a0, $v0
+	li $v0, 1
+	syscall
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Ecrire joursSansManger
+	lw $v0, -20($s7)
+	move $a0, $v0
+	li $v0, 1
+	syscall
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Ecrire score
+	lw $v0, -32($s7)
+	move $a0, $v0
+	li $v0, 1
+	syscall
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Si non(joursSansManger<maxJoursSansManger) 
+		lw $v0, -20($s7)
+	move $t0, $v0
+	lw $v0, -24($s7)
+	sub $t8, $t0, $v0
+	bltz $t8, Sinon24
+	la $v0, faux
+	b FinSi24
+Sinon24:
+	la $v0, vrai
+FinSi24:
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon25
+	la $v0, faux
+	b FinSi25
+Sinon25:
+	la $v0, vrai
+FinSi25:
+
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon26
+# Alors 
+# estMort = vrai
+	la $v0, vrai
+	sw $v0, -28($s7)
+
+	b FinSi26
+Sinon26:
+# Sinon 
+FinSi26:
+
+	lw $v0, -28($s7)
+
+# Initialiser $t8 avec la valeur vrai
+	la $t8, vrai
+	beq $t8, $v0, FinBoucle27
+	j Boucle27
+FinBoucle27: 
+
+# Ecrire score
+	lw $v0, -32($s7)
+	move $a0, $v0
+	li $v0, 1
+	syscall
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+end :
+	li $v0, 10
+	syscall
+
+#Déclaration de la fonction init
+init0: 
+# initV = vrai
+	la $v0, vrai
+	sw $v0, 0($s7)
+
+# poissons = 20
+	li $v0, 20
+	sw $v0, -4($s7)
+
+# boeuf = 20
+	li $v0, 20
+	sw $v0, -8($s7)
+
+# poulet = 20
+	li $v0, 20
+	sw $v0, -12($s7)
+
+# joursSansManger = 0
+	li $v0, 0
+	sw $v0, -20($s7)
+
+# maxJoursSansManger = 5
+	li $v0, 5
+	sw $v0, -24($s7)
+
+# score = 0
+	li $v0, 0
+	sw $v0, -32($s7)
+
+# estMort = faux
+	la $v0, faux
+	sw $v0, -28($s7)
+
+# Retourne initV
+	lw $v0, 0($s7)
+
+	jr $ra
+
+#Déclaration de la fonction manger
+manger3: 
+# Si poissons<poissonMange 
+		lw $v0, -4($s7)
+	move $t0, $v0
+	lw $v0, -40($s7)
+	sub $t8, $t0, $v0
+	bltz $t8, Sinon0
+	la $v0, faux
+	b FinSi0
+Sinon0:
+	la $v0, vrai
+FinSi0:
+
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon1
+# Alors 
+# poissonMange = poissons
+	lw $v0, -4($s7)
+	sw $v0, -40($s7)
+
+# poissons = 0
+	li $v0, 0
+	sw $v0, -4($s7)
+
+	b FinSi1
+Sinon1:
+# Sinon 
+# poissons = poissons + -poissonMange
+	lw $v0, -4($s7)
+	move $t0, $v0
+	lw $v0, -40($s7)
+	sub $v0, $zero, $v0
+	add $v0,$v0,$t0
+	sw $v0, -4($s7)
+
+FinSi1:
+
+# score = score + 2 * poissonMange
+	lw $v0, -32($s7)
+	move $t0, $v0
+	li $v0, 2
+	move $t1, $v0
+	lw $v0, -40($s7)
+	mult $v0,$t1
+	mflo $v0
+	add $v0,$v0,$t0
+	sw $v0, -32($s7)
+
+# Si boeuf<boeufMange 
+		lw $v0, -8($s7)
+	move $t0, $v0
+	lw $v0, -44($s7)
+	sub $t8, $t0, $v0
+	bltz $t8, Sinon2
+	la $v0, faux
+	b FinSi2
+Sinon2:
+	la $v0, vrai
+FinSi2:
+
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon3
+# Alors 
+# boeufMange = boeuf
+	lw $v0, -8($s7)
+	sw $v0, -44($s7)
+
+# boeuf = 0
+	li $v0, 0
+	sw $v0, -8($s7)
+
+	b FinSi3
+Sinon3:
+# Sinon 
+# boeuf = boeuf + -boeufMange
+	lw $v0, -8($s7)
+	move $t0, $v0
+	lw $v0, -44($s7)
+	sub $v0, $zero, $v0
+	add $v0,$v0,$t0
+	sw $v0, -8($s7)
+
+FinSi3:
+
+# score = score + 4 * boeufMange
+	lw $v0, -32($s7)
+	move $t0, $v0
+	li $v0, 4
+	move $t1, $v0
+	lw $v0, -44($s7)
+	mult $v0,$t1
+	mflo $v0
+	add $v0,$v0,$t0
+	sw $v0, -32($s7)
+
+# Si poulet<pouletMange 
+		lw $v0, -12($s7)
+	move $t0, $v0
+	lw $v0, -48($s7)
+	sub $t8, $t0, $v0
+	bltz $t8, Sinon4
+	la $v0, faux
+	b FinSi4
+Sinon4:
+	la $v0, vrai
+FinSi4:
+
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon5
+# Alors 
+# pouletMange = poulet
+	lw $v0, -12($s7)
+	sw $v0, -48($s7)
+
+# poulet = 0
+	li $v0, 0
+	sw $v0, -12($s7)
+
+	b FinSi5
+Sinon5:
+# Sinon 
+# poulet = poulet + -pouletMange
+	lw $v0, -12($s7)
+	move $t0, $v0
+	lw $v0, -48($s7)
+	sub $v0, $zero, $v0
+	add $v0,$v0,$t0
+	sw $v0, -12($s7)
+
+FinSi5:
+
+# score = 3 * pouletMange + score
+	li $v0, 3
+	move $t0, $v0
+	lw $v0, -48($s7)
+	mult $v0,$t0
+	mflo $v0
+	move $t0, $v0
+	lw $v0, -32($s7)
+	add $v0,$v0,$t0
+	sw $v0, -32($s7)
+
+# score = 2 * score + -score + 2 * score + 2 * score + -4 * score
+	li $v0, 2
+	move $t0, $v0
+	lw $v0, -32($s7)
+	mult $v0,$t0
+	mflo $v0
+	move $t0, $v0
+	lw $v0, -32($s7)
+	sub $v0, $zero, $v0
+	add $v0,$v0,$t0
+	move $t0, $v0
+	li $v0, 2
+	move $t1, $v0
+	lw $v0, -32($s7)
+	mult $v0,$t1
+	mflo $v0
+	add $v0,$v0,$t0
+	move $t0, $v0
+	li $v0, 2
+	move $t1, $v0
+	lw $v0, -32($s7)
+	mult $v0,$t1
+	mflo $v0
+	add $v0,$v0,$t0
+	move $t0, $v0
+	li $v0, 4
+	sub $v0, $zero, $v0
+	move $t1, $v0
+	lw $v0, -32($s7)
+	mult $v0,$t1
+	mflo $v0
+	add $v0,$v0,$t0
+	sw $v0, -32($s7)
+
+# Si non(poissonMange<5) et non(boeufMange<1) et non(pouletMange<2) 
+		lw $v0, -40($s7)
+	move $t0, $v0
+	li $v0, 5
+	sub $t8, $t0, $v0
+	bltz $t8, Sinon6
+	la $v0, faux
+	b FinSi6
+Sinon6:
+	la $v0, vrai
+FinSi6:
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon7
+	la $v0, faux
+	b FinSi7
+Sinon7:
+	la $v0, vrai
+FinSi7:
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon10
+	lw $v0, -44($s7)
+	move $t0, $v0
+	li $v0, 1
+	sub $t8, $t0, $v0
+	bltz $t8, Sinon8
+	la $v0, faux
+	b FinSi8
+Sinon8:
+	la $v0, vrai
+FinSi8:
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon9
+	la $v0, faux
+	b FinSi9
+Sinon9:
+	la $v0, vrai
+FinSi9:
+	beq $t8, $v0, SinonImbrique10
+	la $v0, vrai
+	b FinSiImbrique10
+SinonImbrique10:
+	la $v0, faux
+FinSiImbrique10:
+	b FinSi10
+Sinon10:
+	la $v0, faux
+FinSi10:
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon13
+	lw $v0, -48($s7)
+	move $t0, $v0
+	li $v0, 2
+	sub $t8, $t0, $v0
+	bltz $t8, Sinon11
+	la $v0, faux
+	b FinSi11
+Sinon11:
+	la $v0, vrai
+FinSi11:
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon12
+	la $v0, faux
+	b FinSi12
+Sinon12:
+	la $v0, vrai
+FinSi12:
+	beq $t8, $v0, SinonImbrique13
+	la $v0, vrai
+	b FinSiImbrique13
+SinonImbrique13:
+	la $v0, faux
+FinSiImbrique13:
+	b FinSi13
+Sinon13:
+	la $v0, faux
+FinSi13:
+
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon14
+# Alors 
+# aMange = vrai
+	la $v0, vrai
+	sw $v0, -16($s7)
+
+# joursSansManger = 0
+	li $v0, 0
+	sw $v0, -20($s7)
+
+	b FinSi14
+Sinon14:
+# Sinon 
+# aMange = faux
+	la $v0, faux
+	sw $v0, -16($s7)
+
+# joursSansManger = joursSansManger + 1
+	lw $v0, -20($s7)
+	move $t0, $v0
+	li $v0, 1
+	add $v0,$v0,$t0
+	sw $v0, -20($s7)
+
+FinSi14:
+
+# Retourne aMange
+	lw $v0, -16($s7)
+
+	jr $ra
+
+#Déclaration de la fonction digerer
+digerer0: 
+# aMange = faux
+	la $v0, faux
+	sw $v0, -16($s7)
+
+# Retourne vrai
+	la $v0, vrai
+
+	jr $ra

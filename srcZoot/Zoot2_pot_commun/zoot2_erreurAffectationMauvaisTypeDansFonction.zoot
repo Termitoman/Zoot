@@ -1,0 +1,15 @@
+variables
+
+entier a;
+
+fonctions
+
+booleen fonc2()
+debut
+    a = vrai;
+    retourne vrai;
+fin
+
+debut
+    ecrire 42;
+fin

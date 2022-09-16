@@ -1,0 +1,65 @@
+// ERREUR SEMANTIQUE Ligne 43 Fonction : maxPasBon, Retourne manquant
+
+variables
+    entier a;
+fonctions
+    entier min(entier a; entier b; entier c;)
+    variables
+    debut
+        si a < b alors
+            si b < c alors
+                retourne a;
+            sinon
+                si a < c alors
+                    retourne a;
+                sinon
+                    retourne c;
+                finsi
+            finsi
+        sinon
+            si b < c alors
+                retourne b;
+            sinon
+                retourne c;
+            finsi
+        finsi
+    fin
+
+    entier maxBon(entier a; entier b; entier c;)
+    variables
+    debut
+        si a < b alors
+            retourne a;
+        sinon
+            si b < c alors
+            finsi
+        finsi
+
+        repeter
+            retourne 3;
+        jusqua a < b finrepeter
+    fin
+
+    entier maxPasBon(entier a; entier b; entier c;)
+    variables
+    debut
+        si a < b alors
+            retourne a;
+        sinon
+            si b < c alors
+            finsi
+        finsi
+
+        repeter
+            si a < b alors
+                retourne 1;
+            finsi
+        jusqua a < b finrepeter
+
+    fin
+debut
+    a = 1;
+
+    a = min(2, 3, 1);
+    ecrire a;
+fin

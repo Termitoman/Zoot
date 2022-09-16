@@ -1,0 +1,22 @@
+// Compilation incorrecte :
+// ERREUR SEMANTIQUE Ligne 5 Double déclaration de 'baba' !
+// ERREUR SEMANTIQUE Ligne 6 Double déclaration de 'cc' !
+// ERREUR SYNTAXIQUE Ligne 7, Colonne 6 Dernier token lu : ';'
+
+variables
+entier baba;
+booleen cc;
+// Doubles déclarations
+entier baba;
+booleen cc;
+// Erreur sémantique
+debut;
+baba = 8;
+cc = vrai;
+// Types incompatibles
+cc = 8;
+ecrire 7;
+ecrire baba;
+ecrire cc;
+ecrire faux;
+fin

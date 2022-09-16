@@ -1,0 +1,56 @@
+// ERREUR SEMANTIQUE Ligne 15 Double déclaration de la Variable a !
+// ERREUR SEMANTIQUE Ligne 18 Double déclaration de la Fonction aa( 0param(s) ) !
+// ERREUR SEMANTIQUE Ligne 24 Double déclaration de la Variable d !
+// ERREUR SEMANTIQUE Ligne 27 Double déclaration de la Variable e !
+// ERREUR SEMANTIQUE Ligne 39 Double déclaration de la Fonction c( 2param(s) ) !
+// ERREUR SEMANTIQUE Ligne 53 aa est une Fonction mais devrait être une Variable
+// ERREUR SEMANTIQUE Ligne 54 Types de variables incompatibles entre 'a' et 'vrai'
+// ERREUR SEMANTIQUE Ligne 55 'retourne' inattendu dans le bloc principal
+// ERREUR SEMANTIQUE Ligne 18 Fonction : aa, Retourne manquant
+// ERREUR SEMANTIQUE Ligne 36 Fonction : ecrir, Types incompatibles entre le retour et le type de fonction
+// ERREUR SEMANTIQUE Ligne 49 c est une Variable mais devrait être une Fonction
+
+variables
+    entier a;
+    entier a;
+    entier aa;
+fonctions
+    entier aa()
+    variables
+    debut
+        ecrire 1;
+    fin
+
+    entier c(entier d; booleen d;)
+    variables
+        entier e;
+        entier e;
+    debut
+        ecrire 3;
+        retourne d;
+    fin
+
+    entier ecrir()
+    variables
+    debut
+        retourne vrai;
+    fin
+
+    entier c(booleen dda; entier baba;)
+    variables
+        entier a;
+    debut
+        retourne 1;
+    fin
+
+    entier c(entier a;)
+    variables
+    debut
+        retourne c;
+    fin
+debut
+    ecrire 3;
+    ecrire aa();
+    a = vrai;
+    retourne 3;
+fin

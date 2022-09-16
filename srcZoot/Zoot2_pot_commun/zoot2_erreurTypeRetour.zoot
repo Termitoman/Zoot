@@ -1,0 +1,14 @@
+variables
+
+entier a;
+
+fonctions
+
+booleen fonc2()
+debut
+    retourne 42;
+fin
+
+debut
+    ecrire 42;
+fin

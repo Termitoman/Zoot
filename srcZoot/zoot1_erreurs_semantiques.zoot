@@ -1,0 +1,21 @@
+variables
+entier a;
+booleen b;
+booleen w;
+booleen y;
+entier c;
+debut
+a = 9;
+b = vrai;
+w = faux;
+c = a;
+ecrire a;
+ecrire b;
+c = b;
+ecrire w;
+ecrire 125;
+ecrire faux;
+ecrire vrai;
+ecrire c;
+ml = b;
+fin

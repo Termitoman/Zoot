@@ -1,0 +1,20 @@
+entier a;
+booleen b;
+booleen w;
+booleen y;
+entier c;
+debut
+p = 9;
+b = vrai;
+w = faux;
+c = b;
+ml = b;
+ecrire a;
+ecrire b;
+ecrire w;
+ecrire 125;
+ecrire faux;
+ecrire vrai;
+ecrire c;
+ecrire y;
+fin

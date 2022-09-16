@@ -1,0 +1,18 @@
+#IOPETI Hugo & YVOZ Ludovic
+.text
+main :
+# Initialiser $s7 avec $sp
+	move $s7, $sp
+# Réserver la place pour 0 variables
+	add $sp, $sp, 0
+# Ecrire 5
+	li $a0 , 5
+	li $v0 , 1
+	syscall
+# Ecrire 45
+	li $a0 , 45
+	li $v0 , 1
+	syscall
+end :
+	li $v0, 10
+	syscall

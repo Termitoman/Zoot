@@ -1,0 +1,33 @@
+// ERREUR SEMANTIQUE Ligne 23 Types des expressions incompatibles, type : ENTIER Ou ENTIER, attendu : BOOLEEN
+// ERREUR SEMANTIQUE Ligne 24 Types des expressions incompatibles, type : ENTIER Et ENTIER, attendu : BOOLEEN
+// ERREUR SEMANTIQUE Ligne 25 Types des expressions incompatibles, type : ENTIER Ou ENTIER, attendu : BOOLEEN
+// ERREUR SEMANTIQUE Ligne 26 Types des expressions incompatibles, type : BOOLEEN Ou ENTIER, attendu : BOOLEEN
+// ERREUR SEMANTIQUE Ligne 27 Types des expressions incompatibles, type : BOOLEEN == ENTIER, attendu : BOOLEEN
+// ERREUR SEMANTIQUE Ligne 28 Types des expressions incompatibles, type : ENTIER != BOOLEEN, attendu : BOOLEEN
+// ERREUR SEMANTIQUE Ligne 29 Types des expressions incompatibles, type : ENTIER, attendu : BOOLEEN
+// ERREUR SEMANTIQUE Ligne 30 Types des expressions incompatibles, type : BOOLEEN * ENTIER, attendu : ENTIER
+// ERREUR SEMANTIQUE Ligne 31 Types des expressions incompatibles, type : BOOLEEN, attendu : ENTIER
+// ERREUR SEMANTIQUE Ligne 32 Types des expressions incompatibles, type : BOOLEEN + ENTIER, attendu : ENTIER
+
+variables
+    entier a;
+    entier b;
+    entier c;
+fonctions
+    entier aa()
+    variables
+    debut
+        retourne 1;
+    fin
+debut
+    ecrire 1 ou 2;
+    ecrire 1 et 2;
+    ecrire a ou b;
+    ecrire a < 2 ou a;
+    ecrire vrai == b;
+    ecrire b != vrai;
+    ecrire non aa();
+    ecrire vrai * 2 + 4;
+    ecrire - faux;
+    ecrire vrai + 2;
+fin

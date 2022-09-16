@@ -1,0 +1,588 @@
+#IOPETI Hugo & YVOZ Ludovic
+
+.data
+vrai:	.word 1
+faux:	.word 0
+vraiAff:	.asciiz "vrai"
+fauxAff:	.asciiz "faux"
+sautLigne:	.asciiz "\n"
+.text
+main :
+
+# Initialiser $s7 avec $sp
+	move $s7, $sp
+
+# Réserver la place pour 4 variables
+	add $sp, $sp, -16
+
+# a = 0
+	li $v0, 0
+	sw $v0, 0($s7)
+
+# b = 1
+	li $v0, 1
+	sw $v0, -4($s7)
+
+# c = 2
+	li $v0, 2
+	sw $v0, -8($s7)
+
+# Répeter ... jusqu'a a==b et b==c ou a==5
+Boucle6:
+# Ecrire a
+	lw $v0, 0($s7)
+	move $a0, $v0
+	li $v0, 1
+	syscall
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# a = a + 1
+	lw $v0, 0($s7)
+	move $t0, $v0
+	li $v0, 1
+	add $v0,$v0,$t0
+	sw $v0, 0($s7)
+
+	lw $v0, 0($s7)
+	move $t0, $v0
+	lw $v0, -4($s7)
+	beq $t0, $v0, Sinon1
+	la $v0, faux
+	b FinSi1
+Sinon1:
+	la $v0, vrai
+FinSi1:
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon3
+	lw $v0, -4($s7)
+	move $t0, $v0
+	lw $v0, -8($s7)
+	beq $t0, $v0, Sinon2
+	la $v0, faux
+	b FinSi2
+Sinon2:
+	la $v0, vrai
+FinSi2:
+	beq $t8, $v0, SinonImbrique3
+	la $v0, vrai
+	b FinSiImbrique3
+SinonImbrique3:
+	la $v0, faux
+FinSiImbrique3:
+	b FinSi3
+Sinon3:
+	la $v0, faux
+FinSi3:
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon5
+	la $v0, vrai
+	b FinSi5
+Sinon5:
+	lw $v0, 0($s7)
+	move $t0, $v0
+	li $v0, 5
+	beq $t0, $v0, Sinon4
+	la $v0, faux
+	b FinSi4
+Sinon4:
+	la $v0, vrai
+FinSi4:
+	beq $t8, $v0, SinonImbrique5
+	la $v0, vrai
+	b FinSiImbrique5
+SinonImbrique5:
+	la $v0, faux
+FinSiImbrique5:
+FinSi5:
+
+# Initialiser $t8 avec la valeur vrai
+	la $t8, vrai
+	beq $t8, $v0, FinBoucle6
+	j Boucle6
+FinBoucle6: 
+
+# Si vrai 
+		la $v0, vrai
+
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon7
+# Alors 
+	b FinSi7
+Sinon7:
+# Sinon 
+FinSi7:
+
+# Si vrai 
+		la $v0, vrai
+
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon9
+# Alors 
+	b FinSi9
+Sinon9:
+# Sinon 
+# Ecrire faux
+	la $v0, faux
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon8
+	la $a0, vraiAff
+	li $v0, 4
+	syscall
+	b FinSi8
+Sinon8:
+	la $a0, fauxAff
+	li $v0, 4
+	syscall
+FinSi8:
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+FinSi9:
+
+# Si vrai==vrai et faux==faux et faux!=vrai et vrai!=faux et vrai!=faux ou vrai 
+		la $v0, vrai
+	move $t0, $v0
+	la $v0, vrai
+	beq $t0, $v0, Sinon10
+	la $v0, faux
+	b FinSi10
+Sinon10:
+	la $v0, vrai
+FinSi10:
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon12
+	la $v0, faux
+	move $t0, $v0
+	la $v0, faux
+	beq $t0, $v0, Sinon11
+	la $v0, faux
+	b FinSi11
+Sinon11:
+	la $v0, vrai
+FinSi11:
+	beq $t8, $v0, SinonImbrique12
+	la $v0, vrai
+	b FinSiImbrique12
+SinonImbrique12:
+	la $v0, faux
+FinSiImbrique12:
+	b FinSi12
+Sinon12:
+	la $v0, faux
+FinSi12:
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon14
+	la $v0, faux
+	move $t0, $v0
+	la $v0, vrai
+	beq $t0, $v0, Sinon13
+	la $v0, vrai
+	b FinSi13
+Sinon13:
+	la $v0, faux
+FinSi13:
+	beq $t8, $v0, SinonImbrique14
+	la $v0, vrai
+	b FinSiImbrique14
+SinonImbrique14:
+	la $v0, faux
+FinSiImbrique14:
+	b FinSi14
+Sinon14:
+	la $v0, faux
+FinSi14:
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon16
+	la $v0, vrai
+	move $t0, $v0
+	la $v0, faux
+	beq $t0, $v0, Sinon15
+	la $v0, vrai
+	b FinSi15
+Sinon15:
+	la $v0, faux
+FinSi15:
+	beq $t8, $v0, SinonImbrique16
+	la $v0, vrai
+	b FinSiImbrique16
+SinonImbrique16:
+	la $v0, faux
+FinSiImbrique16:
+	b FinSi16
+Sinon16:
+	la $v0, faux
+FinSi16:
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon18
+	la $v0, vrai
+	move $t0, $v0
+	la $v0, faux
+	beq $t0, $v0, Sinon17
+	la $v0, vrai
+	b FinSi17
+Sinon17:
+	la $v0, faux
+FinSi17:
+	beq $t8, $v0, SinonImbrique18
+	la $v0, vrai
+	b FinSiImbrique18
+SinonImbrique18:
+	la $v0, faux
+FinSiImbrique18:
+	b FinSi18
+Sinon18:
+	la $v0, faux
+FinSi18:
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon19
+	la $v0, vrai
+	b FinSi19
+Sinon19:
+	la $v0, vrai
+	beq $t8, $v0, SinonImbrique19
+	la $v0, vrai
+	b FinSiImbrique19
+SinonImbrique19:
+	la $v0, faux
+FinSiImbrique19:
+FinSi19:
+
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon22
+# Alors 
+# Ecrire vrai
+	la $v0, vrai
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon20
+	la $a0, vraiAff
+	li $v0, 4
+	syscall
+	b FinSi20
+Sinon20:
+	la $a0, fauxAff
+	li $v0, 4
+	syscall
+FinSi20:
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+	b FinSi22
+Sinon22:
+# Sinon 
+# Ecrire faux
+	la $v0, faux
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon21
+	la $a0, vraiAff
+	li $v0, 4
+	syscall
+	b FinSi21
+Sinon21:
+	la $a0, fauxAff
+	li $v0, 4
+	syscall
+FinSi21:
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+FinSi22:
+
+# Ecrire 5 * 6 + 3
+	li $v0, 5
+	move $t0, $v0
+	li $v0, 6
+	mult $v0,$t0
+	mflo $v0
+	move $t0, $v0
+	li $v0, 3
+	add $v0,$v0,$t0
+	move $a0, $v0
+	li $v0, 1
+	syscall
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Ecrire 3 + 5 * 6
+	li $v0, 3
+	move $t0, $v0
+	li $v0, 5
+	move $t1, $v0
+	li $v0, 6
+	mult $v0,$t1
+	mflo $v0
+	add $v0,$v0,$t0
+	move $a0, $v0
+	li $v0, 1
+	syscall
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Ecrire nonvrai
+	la $v0, vrai
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon25
+	la $v0, faux
+	b FinSi25
+Sinon25:
+	la $v0, vrai
+FinSi25:
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon26
+	la $a0, vraiAff
+	li $v0, 4
+	syscall
+	b FinSi26
+Sinon26:
+	la $a0, fauxAff
+	li $v0, 4
+	syscall
+FinSi26:
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Ecrire faux et nonvrai
+	la $v0, faux
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon28
+	la $v0, vrai
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon27
+	la $v0, faux
+	b FinSi27
+Sinon27:
+	la $v0, vrai
+FinSi27:
+	beq $t8, $v0, SinonImbrique28
+	la $v0, vrai
+	b FinSiImbrique28
+SinonImbrique28:
+	la $v0, faux
+FinSiImbrique28:
+	b FinSi28
+Sinon28:
+	la $v0, faux
+FinSi28:
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon29
+	la $a0, vraiAff
+	li $v0, 4
+	syscall
+	b FinSi29
+Sinon29:
+	la $a0, fauxAff
+	li $v0, 4
+	syscall
+FinSi29:
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Ecrire faux ou vrai et vrai ou faux
+	la $v0, faux
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon31
+	la $v0, vrai
+	b FinSi31
+Sinon31:
+	la $v0, vrai
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon30
+	la $v0, vrai
+	beq $t8, $v0, SinonImbrique30
+	la $v0, vrai
+	b FinSiImbrique30
+SinonImbrique30:
+	la $v0, faux
+FinSiImbrique30:
+	b FinSi30
+Sinon30:
+	la $v0, faux
+FinSi30:
+	beq $t8, $v0, SinonImbrique31
+	la $v0, vrai
+	b FinSiImbrique31
+SinonImbrique31:
+	la $v0, faux
+FinSiImbrique31:
+FinSi31:
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon32
+	la $v0, vrai
+	b FinSi32
+Sinon32:
+	la $v0, faux
+	beq $t8, $v0, SinonImbrique32
+	la $v0, vrai
+	b FinSiImbrique32
+SinonImbrique32:
+	la $v0, faux
+FinSiImbrique32:
+FinSi32:
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon33
+	la $a0, vraiAff
+	li $v0, 4
+	syscall
+	b FinSi33
+Sinon33:
+	la $a0, fauxAff
+	li $v0, 4
+	syscall
+FinSi33:
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Ecrire non(nonvrai et faux ou nonvrai et vrai)
+	la $v0, vrai
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon34
+	la $v0, faux
+	b FinSi34
+Sinon34:
+	la $v0, vrai
+FinSi34:
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon35
+	la $v0, faux
+	beq $t8, $v0, SinonImbrique35
+	la $v0, vrai
+	b FinSiImbrique35
+SinonImbrique35:
+	la $v0, faux
+FinSiImbrique35:
+	b FinSi35
+Sinon35:
+	la $v0, faux
+FinSi35:
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon38
+	la $v0, vrai
+	b FinSi38
+Sinon38:
+	la $v0, vrai
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon36
+	la $v0, faux
+	b FinSi36
+Sinon36:
+	la $v0, vrai
+FinSi36:
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon37
+	la $v0, vrai
+	beq $t8, $v0, SinonImbrique37
+	la $v0, vrai
+	b FinSiImbrique37
+SinonImbrique37:
+	la $v0, faux
+FinSiImbrique37:
+	b FinSi37
+Sinon37:
+	la $v0, faux
+FinSi37:
+	beq $t8, $v0, SinonImbrique38
+	la $v0, vrai
+	b FinSiImbrique38
+SinonImbrique38:
+	la $v0, faux
+FinSiImbrique38:
+FinSi38:
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon39
+	la $v0, faux
+	b FinSi39
+Sinon39:
+	la $v0, vrai
+FinSi39:
+
+# Initialiser $t8 avec la valeur faux
+	la $t8, faux
+	beq $t8, $v0, Sinon40
+	la $a0, vraiAff
+	li $v0, 4
+	syscall
+	b FinSi40
+Sinon40:
+	la $a0, fauxAff
+	li $v0, 4
+	syscall
+FinSi40:
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+end :
+	li $v0, 10
+	syscall
+
+#Déclaration de la fonction aa
+aa0: 
+# Retourne 1
+	li $v0, 1
+
+	jr $ra

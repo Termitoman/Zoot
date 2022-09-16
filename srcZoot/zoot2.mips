@@ -1,0 +1,144 @@
+#IOPETI Hugo & YVOZ Ludovic
+
+.data
+vrai:	.word 1
+faux:	.word 0
+vraiAff:	.asciiz "vrai"
+fauxAff:	.asciiz "faux"
+sautLigne:	.asciiz "\n"
+.text
+main :
+
+# Initialiser $s1 avec la valeur vrai
+	la $s1, faux
+
+# Initialiser $s7 avec $sp
+	move $s7, $sp
+
+# Réserver la place pour 4 variables
+	add $sp, $sp, -16
+
+# b = vrai
+	la $v0, vrai
+	sw $v0, -4($s7)
+
+# Ecrire fonc1()
+
+# Sauvegarde des registres avant l'appel de fonction.
+	sw $ra,0($sp)
+	sw $s1,-4($sp)
+	addi $sp,$sp,-8
+	# Appel de la fonction.
+	jal fonc1
+	# Restauration des registres après l'appel de fonction.
+	lw $s1,4($sp)
+	lw $ra,8($sp)
+	addi $sp,$sp,8
+	move $t0, $v0
+	beq $s1, $t0, Sinon21
+	la $a0, vraiAff
+	li $v0, 4
+	syscall
+	b FinSi21
+Sinon21:
+	la $a0, fauxAff
+	li $v0, 4
+	syscall
+FinSi21:
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# a = fonc2()
+
+# Sauvegarde des registres avant l'appel de fonction.
+	sw $ra,0($sp)
+	sw $s1,-4($sp)
+	addi $sp,$sp,-8
+	# Appel de la fonction.
+	jal fonc2
+	# Restauration des registres après l'appel de fonction.
+	lw $s1,4($sp)
+	lw $ra,8($sp)
+	addi $sp,$sp,8
+	sw $v0, 0($s7)
+
+# Ecrire a
+	lw $v0, 0($s7)
+	move $a0, $v0
+	li $v0, 1
+	syscall
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+end :
+	li $v0, 10
+	syscall
+
+#Déclaration de la fonction fonc1
+fonc1: 
+# Ecrire 42
+	li $v0, 42
+	move $a0, $v0
+	li $v0, 1
+	syscall
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Retourne vrai
+	la $v0, vrai
+
+	jr $ra
+
+#Déclaration de la fonction fonc2
+fonc2: 
+# Ecrire fonc1()
+
+# Sauvegarde des registres avant l'appel de fonction.
+	sw $ra,0($sp)
+	sw $s1,-4($sp)
+	addi $sp,$sp,-8
+	# Appel de la fonction.
+	jal fonc1
+	# Restauration des registres après l'appel de fonction.
+	lw $s1,4($sp)
+	lw $ra,8($sp)
+	addi $sp,$sp,8
+	move $t0, $v0
+	beq $s1, $t0, Sinon14
+	la $a0, vraiAff
+	li $v0, 4
+	syscall
+	b FinSi14
+Sinon14:
+	la $a0, fauxAff
+	li $v0, 4
+	syscall
+FinSi14:
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Ecrire faux
+	la $v0, faux
+	move $t0, $v0
+	beq $s1, $t0, Sinon15
+	la $a0, vraiAff
+	li $v0, 4
+	syscall
+	b FinSi15
+Sinon15:
+	la $a0, fauxAff
+	li $v0, 4
+	syscall
+FinSi15:
+	la $a0, sautLigne
+	li $v0, 4
+	syscall
+
+# Retourne 25
+	li $v0, 25
+
+	jr $ra

@@ -1,0 +1,156 @@
+// vrai
+// 5
+// 10
+// 200
+// vrai (parce que utilisation d'une variable non initialisée)
+// vrai
+// vrai
+// 4
+// 9
+// 199
+// faux
+// 5
+// 10
+// 200
+// faux
+// vrai
+// vrai
+// vrai
+// 6
+// 1
+// 2
+// 3
+// vrai
+// vrai
+// vrai
+
+variables
+
+    entier var;
+    booleen initV;
+    entier poissons;
+    entier boeuf;
+    entier poulet;
+    booleen aMange;
+
+fonctions
+
+    booleen init()
+    variables
+    debut
+        initV = vrai;
+        var = 6;
+        poissons = 10;
+        boeuf = 5;
+        poulet = 200;
+        retourne initV;
+    fin
+
+    booleen setManger(booleen mange;)
+    variables
+    debut
+        aMange = mange;
+        retourne aMange;
+    fin
+
+    booleen getManger()
+    variables
+    debut
+        retourne aMange;
+    fin
+
+    entier getPoissons()
+    variables
+    debut
+        retourne poissons;
+    fin
+
+    entier getBoeuf()
+    variables
+    debut
+        retourne boeuf;
+    fin
+
+    entier getPoulet()
+    variables
+    debut
+        retourne poulet;
+    fin
+
+    booleen testerParams(entier x; entier y; entier z;)
+    variables
+    debut
+        ecrire var;
+        ecrire x;
+        ecrire y;
+        ecrire z;
+        retourne manger(x, y, z);
+    fin
+
+    booleen manger(entier newPoissons; entier newBoeuf; entier newPoulet;)
+    variables
+    debut
+        poissons = newPoissons;
+        boeuf = newBoeuf;
+        poulet = newPoulet;
+        aMange = vrai;
+        retourne vrai;
+    fin
+
+    booleen digerer()
+    variables
+    debut
+        aMange = faux;
+        retourne vrai;
+    fin
+
+    booleen cycle()
+    variables
+        booleen appel;
+        booleen appelManger;
+        booleen fini;
+    debut
+        appel = init();
+
+        ecrire getBoeuf();
+        ecrire getPoissons();
+        ecrire getPoulet();
+        ecrire getManger();
+
+        appelManger = manger(8, 3, 198);
+
+        ecrire appel;
+        ecrire appelManger;
+
+        retourne digerer();
+    fin
+
+debut
+    initV = faux;
+
+    ecrire init();
+
+    ecrire getBoeuf();
+    ecrire getPoissons();
+    ecrire getPoulet();
+    ecrire getManger();
+
+    ecrire manger(9, 4, 199);
+
+    ecrire digerer();
+
+    ecrire getBoeuf();
+    ecrire getPoissons();
+    ecrire getPoulet();
+    ecrire getManger();
+
+    ecrire cycle();
+
+    ecrire testerParams(1, 2, 3);
+
+    ecrire setManger(vrai);
+
+    ecrire aMange;
+
+    var = var;
+fin

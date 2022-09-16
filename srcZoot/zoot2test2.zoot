@@ -1,0 +1,18 @@
+variables
+    entier x;
+fonctions
+booleen fonc2()
+debut
+    retourne faux;
+fin
+booleen fonc1()
+debut
+
+    retourne fonc2();
+fin
+
+debut
+    ecrire fonc1();
+    ecrire 1;
+    ecrire vrai;
+fin
